@@ -1,0 +1,211 @@
+.brand-logo {
+  display: block;
+  width: 15px;
+  height: 15px;
+  background-color: $green;
+  border-radius: 15px;
+  position: relative;
+
+  &::after {
+    position: absolute;
+    left: 13px;
+    top: 0;
+    box-shadow: 0 0 0 2px white;
+    content: "";
+    width: 15px;
+    height: 15px;
+    background-color: $orange;
+    border-radius: 15px;
+    transition: box-shadow 0.3s ease;
+  }
+}
+
+.navbar.navbar-expand-lg {
+  height: 10vh;
+  z-index: 1000;
+  background-color: #fff;
+}
+
+.navbar.navbar-expand-lg {
+  transition: background 0.3s ease;
+
+  &.active {
+    height: 10vh;
+    z-index: 1000;
+    background-color: $primary;
+
+    .brand-logo::after {
+      box-shadow: 0 0 0 2px $primary;
+      content: "";
+      width: 16px;
+      height: 16px;
+      background-color: #fd7e14;
+      border-radius: 16px;
+    }
+
+    h1 {
+      color: white;
+    }
+  }
+}
+
+.border-bottom-primary {
+  position: relative;
+
+  &::after {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    content: "";
+    display: block;
+    background-color: $primary;
+    height: 6px;
+    width: 100%;
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+  }
+}
+
+.navbar-dropdown-links {
+  position: relative;
+
+  ul {
+    padding-left: 0;
+    position: absolute;
+    top: -400px;
+    left: 0;
+    right: 0;
+    z-index: 999;
+    transition: all 0.5s ease;
+
+    .nav-item {
+      background-color: $primary;
+      padding: 1.5rem 0;
+      text-align: center;
+      width: 100%;
+
+      &::hover,
+      &::active {
+        background-color: darken($primary, 15%);
+      }
+
+      a.bg-primary:hover,
+      a.bg-primary:focus,
+      button.bg-primary:hover,
+      button.bg-primary:focus {
+        background-color: transparent !important;
+      }
+    }
+  }
+}
+
+@media (max-width: 992px) {
+  .navbar-dropdown-links.active {
+    ul {
+      top: 0px;
+    }
+
+    .nav-item {
+      &:hover,
+      &:active {
+        background-color: lighten($primary, 5%);
+      }
+    }
+
+    a.bg-primary:hover,
+    a.bg-primary:focus,
+    button.bg-primary:hover,
+    button.bg-primary:focus {
+      background-color: transparent !important;
+    }
+  }
+}
+
+// hamburger-toggle-icon
+.navbar-toggler {
+  position: relative;
+  width: 30px;
+  height: 24px;
+
+  .header__menu {
+    position: absolute;
+    top: 0;
+    left: 0%;
+    z-index: 1001;
+  }
+
+  $hamburger__height: 26px;
+  $hamburger__width: 26px;
+  $hamburger__layer__height: 4px;
+  $hamburger__colour: $primary;
+
+  // Structure
+  .hamburger {
+    display: block;
+    position: absolute;
+    width: $hamburger__height;
+    height: $hamburger__width;
+    z-index: 2;
+  }
+
+  .hamburger__inner {
+    display: block;
+    width: $hamburger__width;
+    height: $hamburger__layer__height;
+    margin-top: $hamburger__layer__height * 2;
+    background: $hamburger__colour;
+    -webkit-transition: all 0.4s ease-in-out;
+    transition: all 0.4s ease-in-out;
+    background-color: transparent;
+
+    &::before,
+    &::after {
+      display: block;
+      position: absolute;
+      content: "";
+      z-index: -1;
+      width: $hamburger__width;
+      height: $hamburger__layer__height;
+      background: $hamburger__colour;
+      -webkit-transition: all 0.4s ease-in-out;
+      transition: all 0.4s ease-in-out;
+    }
+
+    &::before {
+      top: 0;
+      width: 100%;
+    }
+
+    &::after {
+      top: $hamburger__layer__height * 4;
+      width: 60%;
+      right: 0;
+    }
+  }
+
+  // Clicked State
+  .hamburger--open {
+    .hamburger__inner {
+      background: none;
+
+      &::before,
+      &::after {
+        top: $hamburger__layer__height * 2;
+        background-color: white;
+      }
+
+      &::before {
+        -webkit-transform: rotate(-45deg);
+        -ms-transform: rotate(-45deg);
+        transform: rotate(-45deg);
+      }
+
+      &::after {
+        -webkit-transform: rotate(45deg);
+        -ms-transform: rotate(45deg);
+        transform: rotate(45deg);
+        width: 100%;
+      }
+    }
+  }
+}

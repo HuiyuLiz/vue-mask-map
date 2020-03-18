@@ -1,0 +1,76 @@
+.card {
+  background: #ffffff 0% 0% no-repeat padding-box;
+  box-shadow: 0px 3px 10px #0000001a;
+  border-radius: 10px;
+  opacity: 1;
+  border: none;
+  cursor: pointer;
+  transition: all 0.2s ease-in;
+
+  @media (max-width: 992px) {
+    &:last-child {
+      margin-bottom: 8rem !important;
+    }
+  }
+
+  p {
+    font-size: 0.95rem;
+  }
+
+  .rounded {
+    border-radius: 0.5rem !important;
+  }
+
+  .h4 {
+    font-size: 30px;
+  }
+
+  .h5 {
+    font-size: 16px;
+  }
+
+  .h6 {
+    font-size: 14px;
+    font-weight: normal;
+  }
+
+  .h7 {
+    font-size: 12px;
+    font-weight: normal;
+  }
+
+  .icon-container {
+    width: 42px;
+    height: 49px;
+    position: absolute;
+    bottom: 10px;
+    right: 0px;
+    overflow: hidden;
+  }
+
+  .card-md {
+    width: 48%;
+  }
+
+  .alert {
+    padding: 0.25rem;
+    border: 0.5rem;
+  }
+
+  .front-border {
+    position: relative;
+
+    &::after {
+      content: "";
+      display: block;
+      height: 24px;
+      width: 4px;
+      background-color: $success;
+      border-top-right-radius: 4px;
+      border-bottom-right-radius: 4px;
+      position: absolute;
+      left: -1.25rem;
+      top: -0.25rem;
+    }
+  }
+}

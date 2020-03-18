@@ -8,8 +8,18 @@
     "lint": "vue-cli-service lint"
   },
   "dependencies": {
+    "axios": "^0.19.2",
+    "bootstrap": "^4.4.1",
     "core-js": "^3.6.4",
-    "vue": "^2.6.11"
+    "jquery": "^3.4.1",
+    "leaflet": "^1.6.0",
+    "leaflet.markercluster": "^1.4.1",
+    "popper.js": "^1.16.1",
+    "underscore": "^1.9.2",
+    "vue": "^2.6.11",
+    "vue-axios": "^2.1.5",
+    "vue-bootstrap-typeahead": "^0.2.6",
+    "vue-virtual-scroll-list": "^1.4.6"
   },
   "devDependencies": {
     "@vue/cli-plugin-babel": "^4.2.0",
