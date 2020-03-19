@@ -12,17 +12,27 @@
   transition-delay: 2s;
 }
 
+html {
+  position: relative;
+  min-height: 100%;
+}
+
 body {
-  width: 100%;
-  height: auto;
-  height: 100vh;
+  height: 10vh;
   font-family: "Noto Sans TC", "Material Icons", "Microsoft JhengHei ", sans-serif;
   overflow: hidden;
 
-  @media (max-width: 992px) {
-    min-height: 600px;
-    height: 100%;
+  @media (max-width: 768px) {
+    overflow: auto;
   }
+}
+
+.footer {
+  width: 100%;
+  height: 60px;
+  vertical-align: center;
+
+  background-color: #f5f5f5;
 }
 
 li {
@@ -57,10 +67,19 @@ textarea {
 .min-height {
   height: 85vh;
 
-  @media (max-width: 992px) {
-    min-height: 400px;
+  @media (max-width: 768px) {
     height: 90vh;
   }
+}
+
+.scroll-height {
+  position: absolute;
+  height: 400px;
+  top: 220px;
+  left: 0;
+  right: 0;
+  bottom: 20px;
+  background-color: pink;
 }
 
 .card-list {
@@ -68,12 +87,15 @@ textarea {
   top: 210px;
   bottom: 1.5rem;
   left: 0;
+  right: 0;
   display: flex;
   flex-direction: column;
   width: 100%;
 
-  @media (max-width: 992px) {
-    height: calc(100vh - 210px - 10vh);
+  @media (max-width: 768px) {
+    position: relative;
+    top: 0;
+    margin-right: 0;
   }
 }
 
@@ -82,26 +104,16 @@ textarea {
   overflow: auto;
   display: flex;
   flex-direction: column;
+
+  @media (max-width: 992px) {
+    overflow: hidden;
+  }
 }
 
 .main {
   position: relative;
   height: 90vh;
   overflow: hidden;
-
-  @media (max-width: 992px) {
-    height: 90vh;
-  }
-}
-
-footer {
-  height: 10vh;
-  // animation: fadeIn 0.3s ease-in;
-  // animation-delay: 1.5s;
-  // visibility: hidden;
-  // opacity: 0;
-  // animation-fill-mode: forwards;
-  // transition: all ease-in-out;
 }
 
 .load-data {
@@ -118,7 +130,7 @@ footer {
 .button-group {
   position: relative;
   width: 100%;
-  padding: 2.5rem 0;
+  padding: 1.5rem 0;
 }
 
 .btn-circle {
@@ -479,7 +491,7 @@ button:focus {
   }
 
   @media (max-width: 768px) {
-    bottom: 5%;
+    bottom: 20px;
     right: 15px;
     width: 48px;
     height: 48px !important;
@@ -551,6 +563,22 @@ button:focus {
 
   100% {
     display: none;
-    top: -100%;
+    top: -150%;
+  }
+}
+
+.overflow-xs-auto {
+  overflow: hidden;
+
+  @media (max-width: 768px) {
+    overflow: auto;
+  }
+}
+
+.overflow-md-auto {
+  overflow: auto;
+  max-height: 60vh;
+
+  @media (max-width: 768px) {
   }
 }

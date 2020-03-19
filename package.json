@@ -1,16 +1,19 @@
 {
   "name": "vue-mask-map",
+  "homepage": "https://HuiyuLiz.github.io/vue-mask-map",
   "version": "0.1.0",
   "private": true,
   "scripts": {
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build",
-    "lint": "vue-cli-service lint"
+    "lint": "vue-cli-service lint",
+    "deploy": "gh-pages -d dist"
   },
   "dependencies": {
     "axios": "^0.19.2",
     "bootstrap": "^4.4.1",
     "core-js": "^3.6.4",
+    "gh-pages": "^2.2.0",
     "jquery": "^3.4.1",
     "leaflet": "^1.6.0",
     "leaflet.markercluster": "^1.4.1",

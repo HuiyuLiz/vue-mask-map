@@ -10,18 +10,25 @@
           <span class="ball2"></span>
         </div>
       </div>
-      <!-- <div class="h5 text-white">Loading...</div> -->
     </div>
     <!--================= navbar =================-->
-    <NavBar @checkToggle="checkToggle" @changeRouter="changeRouter" :currentRouter="currentRouter"></NavBar>
+    <header>
+      <NavBar
+        @checkToggle="checkToggle"
+        @changeRouter="changeRouter"
+        :currentRouter="currentRouter"
+      ></NavBar>
+    </header>
     <!-- ================= modal ================= -->
     <Modal @changeRouter="changeRouter" :currentRouter="currentRouter"></Modal>
-    <section class="main">
-      <div class="container">
-        <div class="row" :class="{'overflow-auto':isFocus}">
-          <div class="col-md-5 bg-light pt-4 min-height">
+
+    <!-- stores content -->
+    <section class="bg-light">
+      <main role="main" class="container overflow-xs-auto" :class="{'overflow-hidden':isFocus}">
+        <div class="row">
+          <div class="col-md-5 bg-light pt-4 mb-md-3 min-height px-0 px-md-3">
             <!--================= Search Input =================-->
-            <div class="d-flex justify-content-between mb-3 px-0 px-md-3">
+            <div class="d-flex justify-content-between mb-3 px-3">
               <div class="form-group d-none d-md-block" style="width:70%">
                 <vue-bootstrap-typeahead
                   v-model.trim="searchText"
@@ -68,16 +75,16 @@
                 <div class="align-middle">搜尋</div>
               </div>
             </div>
-            <div class="h3 text-primary d-flex align-items-baseline px-0 px-md-3" v-if="!isFocus">
+            <div class="h3 text-primary d-flex align-items-baseline px-3" v-if="!isFocus">
               <div class="h3 m-0 font-weight-heavy mb-3">{{day}}</div>
               <span class="h6 m-0 ml-2">購買日</span>
               <div @click="currentRouter='口罩怎麼買'" style="cursor:pointer">
-                <img src="/icon/ic_help@2x.png" class="ml-1" />
+                <img :src="this.publicPath +'icon/ic_help@2x.png'" class="ml-1" />
               </div>
             </div>
             <!--================= Refresh Button =================-->
             <div
-              class="d-flex justify-content-between mb-3 px-0 px-md-3 align-items-center mb-3"
+              class="d-flex justify-content-between mb-3 px-3 align-items-center mb-3"
               v-if="!isFocus"
             >
               <small class="text-primary mb-0 d-flex flex-column">
@@ -98,14 +105,12 @@
               >重整列表</div>
             </div>
             <!--================= Store =================-->
-            <div class="px-0 px-md-3 card-list" v-if="!isFocus">
-              <div
-                class="scrollable-content mt-4"
-                :class="{'justify-content-end':filterData.length <= 0,'justify-content-between':searchStatus||filterData.length > 0}"
-              >
+
+            <div class="px-0 px-md-3 card-list px-0 m-auto" v-if="!isFocus">
+              <div class="px-0 px-md-3 scrollable-content mt-4">
                 <template v-if="filterData.length > 0">
                   <div
-                    class="card mx-3 mb-3"
+                    class="card mx-3 mx-md-0 mb-4"
                     ref="card"
                     :class="{'fade':!isFade,'fade show':isFade}"
                     v-for="(store,index) in filterStore"
@@ -132,7 +137,7 @@
                             <span class="mr-3">地址</span>
                             <span class="text-secondary w-75">{{store.properties.address}}</span>
                           </p>
-                          <small class="ml-auto w-25 text-right" href="#">
+                          <small class="ml-auto w-25 text-right" href="javascript:;">
                             <a
                               target="_blank"
                               rel="noopener noreferrer"
@@ -149,7 +154,7 @@
                             <span class="mr-3">電話</span>
                             <span class="text-secondary">{{store.properties.phone}}</span>
                           </p>
-                          <small class="ml-auto" href="#">
+                          <small class="ml-auto" href="javascript:;">
                             <a :href="`tel:${store.properties.phone}`">
                               <u>撥打電話</u>
                             </a>
@@ -173,6 +178,7 @@
                       </div>
                     </div>
                   </div>
+                  <!--================= Loading More Data & Go to Top Buttons =================-->
                   <div class="text-center mt-3">
                     <div
                       class="text-center load-data mb-2"
@@ -189,7 +195,7 @@
                         <p v-else>還有 {{filterData.length - loadingData}} 筆</p>
                       </small>
                     </div>
-                    <div class="button-group">
+                    <div class="button-group" :class="{'py-5':filterData.length>1}">
                       <button
                         class="btn btn-primary btn-rounded py-2 btn-shadow load"
                         style="width:40%"
@@ -208,11 +214,14 @@
                   查無此地點
                   <i class="material-icons ml-1">error</i>
                 </div>
-                <footer class="d-flex d-md-none bg-primary py-4">
+                <footer
+                  class="footer bg-primary d-flex align-items-center d-flex d-md-none"
+                  :class="{'fixed-bottom':filterData.length<=1}"
+                >
                   <div class="container align-items-center d-flex align-items-center">
-                    <div class="text-left">
-                      <div class="text-white h6 mb-0">防疫專線 1922 ｜ 口罩資訊 1911</div>
-                      <small class="text-muted mb-2">
+                    <div class>
+                      <div class="text-left text-white h6 mb-0">防疫專線 1922 ｜ 口罩資訊 1911</div>
+                      <small class="text-left text-muted">
                         <a
                           href="https://github.com/HuiyuLiz"
                           target="_blank"
@@ -229,7 +238,7 @@
             <!--================= Search location list =================-->
             <template v-if="isFocus">
               <div class="d-block d-md-none">
-                <div class="flex-fluid">
+                <div class="flex-fluid px-3">
                   <div
                     class="container bg-primary d-flex text-white align-items-center justify-content-between py-1"
                   >
@@ -239,7 +248,7 @@
                     </button>
                   </div>
                 </div>
-                <ul class="list-group">
+                <ul class="list-group px-3" style="min-height:90vh">
                   <li
                     class="text-primary border-bottom py-3 px-2"
                     v-for="(data,index) in getLocalData"
@@ -273,7 +282,7 @@
             </div>
           </div>
         </div>
-      </div>
+      </main>
     </section>
   </div>
 </template>
@@ -369,6 +378,9 @@ export default {
     }
   },
   computed: {
+    publicPath() {
+      return process.env.BASE_URL;
+    },
     addresses() {
       let vm = this;
       let result = [];
@@ -420,6 +432,7 @@ export default {
   methods: {
     scrollToTop() {
       let vm = this;
+      // let el = vm.$refs.card[0];
       let el = vm.$refs.card[0];
       if (el) {
         el.scrollIntoView({
@@ -809,5 +822,5 @@ export default {
 </script>
 
 <style lang="scss">
-@import "assets/scss/all";
+@import "./assets/scss/all";
 </style>

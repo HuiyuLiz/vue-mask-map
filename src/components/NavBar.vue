@@ -2,14 +2,14 @@
   <div>
     <nav class="navbar navbar-expand-lg" :class="{'active':isToggle}">
       <div class="container py-2">
-        <a class="navbar-brand text-primary d-flex align-items-center" href="#">
+        <a class="navbar-brand text-primary d-flex align-items-center" href="javascript:;">
           <div class="brand-logo"></div>
           <h1 class="h5 ml-4 m-0">口罩即時查</h1>
         </a>
         <button class="navbar-toggler" type="button" @click="isToggle=!isToggle">
           <!-- <span class="navbar-toggler-icon"></span> -->
           <div class="header__menu" :class="{'hamburger--open':isToggle}">
-            <a id="header__button" class="hamburger" href="#">
+            <a id="header__button" class="hamburger" href="javascript:;">
               <div class="hamburger__inner"></div>
             </a>
           </div>
@@ -21,7 +21,7 @@
               :class="{'border-bottom-primary':currentRouter==='口罩供給現況'}"
               @click="changeRouter('口罩供給現況')"
             >
-              <a class="nav-link text-primary" href="#">
+              <a class="nav-link text-primary" href="javascript:;">
                 口罩供給現況
                 <span class="sr-only">(current)</span>
               </a>
@@ -31,7 +31,7 @@
               :class="{'border-bottom-primary':currentRouter==='口罩怎麼買'}"
               @click="changeRouter('口罩怎麼買')"
             >
-              <a class="nav-link text-primary" href="#">
+              <a class="nav-link text-primary" href="javascript:;">
                 口罩怎麼買
                 <span class="sr-only">(current)</span>
               </a>
@@ -46,7 +46,7 @@
           class="nav-item d-flex d-lg-none text-center justify-content-center"
           @click="checkToggle('口罩供給現況',false)"
         >
-          <a class="nav-link text-white" href="#">
+          <a class="nav-link text-white" href="javascript:;">
             口罩供給現況
             <span class="sr-only">(current)</span>
           </a>
@@ -55,7 +55,7 @@
           class="nav-item d-flex d-lg-none text-center justify-content-center"
           @click="checkToggle('口罩怎麼買',false)"
         >
-          <a class="nav-link text-white" href="#">
+          <a class="nav-link text-white" href="javascript:;">
             口罩怎麼買
             <span class="sr-only">(current)</span>
           </a>

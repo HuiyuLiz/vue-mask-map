@@ -6,7 +6,9 @@
   border: none;
   cursor: pointer;
   transition: all 0.2s ease-in;
-
+  .card-body {
+    min-height: 1px;
+  }
   @media (max-width: 992px) {
     &:last-child {
       margin-bottom: 8rem !important;

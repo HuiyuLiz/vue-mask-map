@@ -11,7 +11,11 @@
         </button>
         <div class="modal-body p-0">
           <div class="d-flex justify-content-center px-3">
-            <img src="/policy.png" class="img-fluid" style="height:80vh;object-fit:contain;" />
+            <img
+              :src="this.publicPath +'jpg/policy.png'"
+              class="img-fluid"
+              style="height:80vh;object-fit:contain;"
+            />
           </div>
         </div>
       </div>
@@ -45,6 +49,11 @@ export default {
       } else {
         vm.$refs.modal.className = "modal fade show d-flex";
       }
+    }
+  },
+  computed: {
+    publicPath() {
+      return process.env.BASE_URL;
     }
   },
   methods: {

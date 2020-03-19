@@ -5,7 +5,7 @@
       {{mask}}
       <span class="h7">片</span>
       <div class="icon-container">
-        <img :src="status.icon" alt />
+        <img :src="this.publicPath+status.icon" alt />
       </div>
     </div>
   </div>
@@ -53,6 +53,9 @@ export default {
         return this.stock_status.full;
       }
       return status;
+    },
+    publicPath() {
+      return process.env.BASE_URL;
     }
   }
 };
