@@ -1,6 +1,5 @@
 <template>
   <div id="app">
-    <div id="top" ref="top"></div>
     <div
       class="container-fluid bg-primary d-flex flex-column justify-content-center align-items-center"
       :class="{'animation-delay':data.length>0}"
@@ -209,10 +208,29 @@
                         @click="loadMore"
                       >查看更多</button>
                       <button
-                        class="btn btn-primary btn-shadow mb-2 btn-circle"
+                        class="btn btn-primary btn-shadow mb-2 btn-circle d-none d-md-flex"
                         @click="scrollToTop"
                         v-if="filterData.length>1"
                       >TOP</button>
+                      <div class="d-flex d-md-none">
+                        <go-top
+                          :size="46"
+                          :left="80"
+                          :right="30"
+                          :bottom="180"
+                          :bottom-gap="50"
+                          :z-index="100"
+                          fg-color="white"
+                          bg-color="#34495e"
+                          :radius="46"
+                          weight="bold"
+                          ripple-bg="rgba(0, 0, 0, .5)"
+                          :max-width="0"
+                          :has-outline="false"
+                          box-shadow="0px 5px 20px #34495e4d"
+                          :src="this.publicPath +'icon/goTop.svg'"
+                        ></go-top>
+                      </div>
                     </div>
                   </div>
                 </template>
@@ -301,6 +319,7 @@ import L from "leaflet";
 import "leaflet.markercluster/dist/MarkerCluster.css";
 import "leaflet.markercluster/dist/MarkerCluster.Default.css";
 import "leaflet.markercluster/dist/leaflet.markercluster";
+import GoTop from "@inotom/vue-go-top";
 import CardStockItem from "@/components/CardStockItem.vue";
 import NavBar from "@/components/NavBar.vue";
 import Modal from "@/components/Modal.vue";
@@ -311,7 +330,8 @@ export default {
     CardStockItem,
     NavBar,
     Modal,
-    VueBootstrapTypeahead
+    VueBootstrapTypeahead,
+    GoTop
   },
   data() {
     return {

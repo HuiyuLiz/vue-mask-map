@@ -586,11 +586,11 @@ button:focus {
 }
 
 .overflow-xs-auto {
-  overflow: hidden;
+  // overflow: hidden;
 
-  @media (max-width: 768px) {
-    overflow: auto;
-  }
+  // @media (max-width: 768px) {
+  //   overflow: scroll;
+  // }
 }
 
 .overflow-md-auto {
@@ -599,4 +599,21 @@ button:focus {
 
   @media (max-width: 768px) {
   }
+}
+
+.vue-go-top__content {
+  // &::after {
+  //   content: "AA";
+  //   display: block;
+  //   width: 46px;
+  //   height: 46px;
+  //   position: absolute;
+  //   top: 0;
+  //   right: 0;
+  //   left: 0;
+  //   bottom: 0;
+  //   background-color: red;
+  //   color: white;
+  //   z-index: 99999;
+  // }
 }
