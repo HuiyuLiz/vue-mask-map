@@ -572,6 +572,7 @@ export default {
     },
     getGeolocation() {
       let vm = this;
+      vm.isLoading = true;
       if (navigator.geolocation) {
         let location_timeout = setTimeout("vm.geolocFail()", 10000);
         navigator.geolocation.getCurrentPosition(
@@ -580,15 +581,24 @@ export default {
             let lat = position.coords.latitude;
             let lng = position.coords.longitude;
             vm.addUserMarker(lat, lng);
+            setTimeout(() => {
+              vm.isLoading = false;
+            }, 1200);
           },
           function(error) {
             clearTimeout(location_timeout);
             vm.geolocFail();
+            setTimeout(() => {
+              vm.isLoading = false;
+            }, 1200);
             console.log(error);
           }
         );
       } else {
         vm.geolocFail();
+        setTimeout(() => {
+          vm.isLoading = false;
+        }, 1200);
       }
     },
     addUserMarker(lat, lng) {
