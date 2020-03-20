@@ -1,5 +1,6 @@
 <template>
   <div id="app">
+    <div id="top" ref="top"></div>
     <div
       class="container-fluid bg-primary d-flex flex-column justify-content-center align-items-center"
       :class="{'animation-delay':data.length>0}"
@@ -24,9 +25,14 @@
 
     <!-- stores content -->
     <section class="bg-light">
-      <main role="main" class="container overflow-xs-auto" :class="{'overflow-hidden':isFocus}">
-        <div class="row">
-          <div class="col-md-5 bg-light pt-4 mb-md-3 min-height px-0 px-md-3">
+      <main
+        role="main"
+        class="container overflow-xs-auto"
+        ref="content"
+        :class="{'overflow-hidden':isFocus}"
+      >
+        <div class="row d-flex justify-content-sm-center">
+          <div class="col-md-8 col-lg-5 bg-light pt-4 mb-md-3 min-height px-0 px-md-3">
             <!--================= Search Input =================-->
             <div class="d-flex justify-content-between mb-3 px-3">
               <div class="form-group d-none d-md-block" style="width:70%">
@@ -107,10 +113,10 @@
             <!--================= Store =================-->
 
             <div class="px-0 px-md-3 card-list px-0 m-auto" v-if="!isFocus">
-              <div class="px-0 px-md-3 scrollable-content mt-4">
+              <div class="px-0 px-lg-3 scrollable-content mt-4">
                 <template v-if="filterData.length > 0">
                   <div
-                    class="card mx-3 mx-md-0 mb-4"
+                    class="card mx-3 mx-lg-0 mb-4"
                     ref="card"
                     :class="{'fade':!isFade,'fade show':isFade}"
                     v-for="(store,index) in filterStore"
@@ -210,17 +216,17 @@
                     </div>
                   </div>
                 </template>
-                <div class="mb-4 mx-3 text-primary d-flex" v-if="searchStatus">
+                <div class="mb-4 mx-3 mx-md-0 text-primary d-flex" v-if="searchStatus">
                   查無此地點
                   <i class="material-icons ml-1">error</i>
                 </div>
                 <footer
-                  class="footer bg-primary d-flex align-items-center d-flex d-md-none"
+                  class="footer align-items-center d-flex d-lg-none"
                   :class="{'fixed-bottom':filterData.length<=1}"
                 >
                   <div class="container align-items-center d-flex align-items-center">
                     <div class>
-                      <div class="text-left text-white h6 mb-0">防疫專線 1922 ｜ 口罩資訊 1911</div>
+                      <div class="text-left text-primary h6 mb-0">防疫專線 1922 ｜ 口罩資訊 1911</div>
                       <small class="text-left text-muted">
                         <a
                           href="https://github.com/HuiyuLiz"
@@ -263,7 +269,7 @@
             </template>
           </div>
           <!--================= Map =================-->
-          <div class="col-md-7 d-none d-md-flex mb-5 flex-column justify-content-space min-height">
+          <div class="col-md-7 d-none d-lg-flex mb-5 flex-column justify-content-space min-height">
             <div id="map" ref="map" class="h-100 w-100 mb-3">
               <button class="btn btn-location" id="geolocation" @click="getUserLocation">
                 <i class="material-icons">my_location</i>
@@ -344,16 +350,22 @@ export default {
       searchStatus: false,
       addressSearch: "",
       selectedAddress: null,
-      getLocalData: []
+      getLocalData: [],
+      initData: [],
+      isInit: true
     };
   },
   watch: {
     userLocation(val) {
       let vm = this;
       if (val.length > 0) {
-        vm.searchStatus = false;
+        setTimeout(() => {
+          vm.searchStatus = false;
+        }, 1000);
       } else {
-        vm.searchStatus = true;
+        setTimeout(() => {
+          vm.searchStatus = true;
+        }, 1000);
       }
     },
     isClicked() {
@@ -432,7 +444,6 @@ export default {
   methods: {
     scrollToTop() {
       let vm = this;
-      // let el = vm.$refs.card[0];
       let el = vm.$refs.card[0];
       if (el) {
         el.scrollIntoView({
@@ -449,8 +460,9 @@ export default {
       let vm = this;
       if (newVal) {
         vm.isLoading = true;
-        vm.loadingData = 20;
+        vm.loadingData = 5;
         vm.isUserLocation = false;
+        vm.scrollToTop();
         setTimeout(() => {
           vm.isLoading = false;
         }, 1200);
@@ -555,38 +567,56 @@ export default {
       vm.isClicked = true;
       vm.searchInput = "目前位置";
     },
+    geolocFail() {
+      alert("無法取得目前位置");
+    },
     getGeolocation() {
+      let vm = this;
+      if (navigator.geolocation) {
+        let location_timeout = setTimeout("vm.geolocFail()", 10000);
+        navigator.geolocation.getCurrentPosition(
+          function(position) {
+            clearTimeout(location_timeout);
+            let lat = position.coords.latitude;
+            let lng = position.coords.longitude;
+            vm.addUserMarker(lat, lng);
+          },
+          function(error) {
+            clearTimeout(location_timeout);
+            vm.geolocFail();
+            console.log(error);
+          }
+        );
+      } else {
+        vm.geolocFail();
+      }
+    },
+    addUserMarker(lat, lng) {
       let vm = this;
       let map = vm.map;
       vm.userLocation = [];
-      navigator.geolocation.getCurrentPosition(function(position) {
-        console.log("navigator.geolocation");
-        let lat = position.coords.latitude;
-        let lng = position.coords.longitude;
+      vm.userLat = lat;
+      vm.userLng = lng;
 
-        vm.userLat = lat;
-        vm.userLng = lng;
+      // 使用者地點
+      let title = "目前位置";
+      map.setView([lat, lng], 13);
+      let location = L.marker(new L.LatLng(lat, lng), {
+        title: title
+      }).addTo(map);
+      location.bindPopup(title).openPopup();
+      vm.userLocation.push(location);
+      let popup = location.getPopup();
+      popup.options.closeOnClick = false;
 
-        // 使用者地點
-        let title = "目前位置";
-        map.setView([lat, lng], 13);
-        let location = L.marker(new L.LatLng(lat, lng), {
-          title: title
-        }).addTo(map);
-        location.bindPopup(title).openPopup();
-        vm.userLocation.push(location);
-        let popup = location.getPopup();
-        popup.options.closeOnClick = false;
-
-        // 新增地點半徑
-        L.circle([lat, lng], {
-          color: "#fd7e14",
-          fillColor: "#fd7e14",
-          fillOpacity: 0.5,
-          radius: 3000
-        }).addTo(map);
-        vm.getStores();
-      });
+      // 新增地點半徑
+      L.circle([lat, lng], {
+        color: "#fd7e14",
+        fillColor: "#fd7e14",
+        fillOpacity: 0.5,
+        radius: 3000
+      }).addTo(map);
+      vm.getStores();
     },
     initMap() {
       // 初始地圖
@@ -720,9 +750,33 @@ export default {
           "https://raw.githubusercontent.com/kiang/pharmacies/master/json/points.json?fbclid=IwAR1dnONo5ndjbYoiQOHymhawhbnRDFKmWVjQT4A5gV5Wo4zccyBvp0peAgk"
         )
         .then(response => {
-          response.data.features
-            ? (vm.data = Object.freeze(response.data.features))
-            : (vm.data = []);
+          // response.data.features
+          //   ? (vm.data = Object.freeze(response.data.features))
+          //   : (vm.data = []);
+          let data = response.data.features
+            ? Object.freeze(response.data.features)
+            : [];
+
+          if (vm.isInit) {
+            data.filter((d, index) => {
+              if (index < 20) {
+                vm.initData.push(d);
+              }
+            });
+            vm.data = vm.initData;
+            console.log("init", vm.data.length);
+            setTimeout(() => {
+              vm.data = data;
+              vm.getMarkers();
+              vm.initMap();
+              vm.isInit = false;
+              console.log(vm.data.length, vm.isInit);
+            }, 4000);
+          } else {
+            vm.data = data;
+            console.log("現有資料再重整", vm.data.length, vm.isInit);
+          }
+
           let update_time = vm.data[0].properties.updated;
           vm.update_time = update_time.split(" ")[1];
 
