@@ -8,3 +8,5 @@
  
  ## 其他資訊
   <a href="https://xd.adobe.com/view/6e126433-68ec-45ce-6c7d-62ac0cede399-1823/" target="_blank">PY Design 設計稿</a> 
+  <a href="https://www.youtube.com/watch?v=916M64DuRnk" target="_blank">Using the Geolocation API - JavaScript Tutorial</a> 
+
