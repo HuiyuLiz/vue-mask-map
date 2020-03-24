@@ -7,6 +7,7 @@
   若使用者拒絕存取位置，可到 Chrome瀏覽器裡的設定/隱私權和安全性/網站設定/位置，刪除封鎖網站後重新取得位置資訊，另一個方法可以點選網址上的 Icon 「查看網站資訊」，將已封鎖的「位置」重新選擇「允許」，重整頁面後可以得到相同結果。
  
  ## 其他資訊
-  <a href="https://xd.adobe.com/view/6e126433-68ec-45ce-6c7d-62ac0cede399-1823/" target="_blank">PY Design 設計稿</a> 
+  <a href="https://xd.adobe.com/view/6e126433-68ec-45ce-6c7d-62ac0cede399-1823/" target="_blank">PY Design 設計稿</a>  
+  
   <a href="https://www.youtube.com/watch?v=916M64DuRnk" target="_blank">Using the Geolocation API - JavaScript Tutorial</a> 
 
