@@ -1,16 +1,6 @@
 <template>
   <div id="app">
-    <div
-      class="container-fluid bg-primary d-flex flex-column justify-content-center align-items-center"
-      :class="{'animation-delay':data.length>0}"
-    >
-      <div class="block d-flex align-items-center justify-content-center">
-        <div class="loading">
-          <span class="ball1"></span>
-          <span class="ball2"></span>
-        </div>
-      </div>
-    </div>
+    <Loading :class="{'animation-delay':data.length>0}"></Loading>
     <!--================= navbar =================-->
     <header>
       <NavBar
@@ -31,19 +21,35 @@
         :class="{'overflow-hidden':isFocus}"
       >
         <div class="row d-flex justify-content-sm-center">
-          <div class="col-md-8 col-lg-5 bg-light pt-4 mb-md-3 min-height px-0 px-md-3">
+          <div class="col-md-8 col-lg-5 bg-light pt-2 mb-md-2 min-height px-0 px-md-3">
             <!--================= Search Input =================-->
-            <div class="d-flex justify-content-between mb-3 px-3">
+             <div class="form-row px-3 mb-3" v-if="!isFocus">
+              <div class="col">
+                <label for="city"></label>
+                <select class="form-control" id="city" v-model="cityIndex">
+                  <option :value="null" selected>全部縣市</option>
+                  <option v-for="(city,index) in CityCountry" :key="index" :value="index">{{city.name}}</option>
+                </select>
+              </div>
+              <div class="col">
+                <label for="area"></label>
+                <select class="form-control" id="area" v-model="areaIndex">
+                  <option :value="null" selected>全部區域</option>
+                  <option v-for="(area,index) in areas" :key="index" :value="index">{{area.name}}</option>
+                </select>
+              </div>
+            </div>
+            <div class="d-flex justify-content-between mb-2 px-3" >
               <div class="form-group d-none d-md-block" style="width:70%">
                 <vue-bootstrap-typeahead
                   v-model.trim="searchText"
                   :data="addresses"
-                  placeholder="請輸入地址或區域"
+                  placeholder="請輸入地址"
                   @hit="selectedAddress = $event"
                   ref="typeahead"
                 />
               </div>
-              <div class="form-group d-flex d-md-none w-100 mb-3">
+              <div class="form-group d-flex d-md-none w-100 mb-3" :class="{'mt-3':isFocus}">
                 <div class="input-icon-group" v-if="!isFocus">
                   <input
                     type="text"
@@ -67,7 +73,7 @@
                     v-if="isFocus"
                     v-model.trim="searchText"
                     :data="addresses"
-                    placeholder="請輸入地址或區域"
+                    placeholder="請輸入地址"
                     class="w-100 arrow-back-input"
                     @hit="selectedAddress = $event"
                   />
@@ -75,21 +81,25 @@
               </div>
               <div
                 class="btn btn-primary w-25 py-2 d-none d-md-flex justify-content-center align-items-center"
-                @click="searchLocation"
+                @click="setView"
               >
                 <div class="align-middle">搜尋</div>
               </div>
             </div>
             <div class="h3 text-primary d-flex align-items-baseline px-3" v-if="!isFocus">
-              <div class="h3 m-0 font-weight-heavy mb-3">{{day}}</div>
+              <div class="h3 m-0 font-weight-heavy">{{day}}</div>
               <span class="h6 m-0 ml-2">購買日</span>
-              <div @click="currentRouter='口罩怎麼買'" style="cursor:pointer">
-                <img :src="this.publicPath +'icon/ic_help@2x.png'" class="ml-1" />
+              <div @click="currentRouter='口罩怎麼買'" style="cursor:pointer;position:relative;top:3px">
+                <img
+                  :src="this.publicPath +'icon/ic_help@2x@2x.png'"
+                  class="ml-1"
+                  style="width:24px;height:24px;display:block"
+                />
               </div>
             </div>
             <!--================= Refresh Button =================-->
             <div
-              class="d-flex justify-content-between mb-3 px-3 align-items-center mb-3"
+              class="d-flex justify-content-between mb-3 px-3 align-items-end"
               v-if="!isFocus"
             >
               <small class="text-primary mb-0 d-flex flex-column">
@@ -111,8 +121,8 @@
             </div>
             <!--================= Store =================-->
 
-            <div class="px-0 px-md-3 card-list px-0 m-auto" v-if="!isFocus">
-              <div class="px-0 px-lg-3 scrollable-content mt-4">
+            <div class="px-0 px-lg-3 card-list px-0 m-auto" v-if="!isFocus">
+              <div class="px-0 px-lg-3 scrollable-content mt-2 mt-md-4">
                 <template v-if="filterData.length > 0">
                   <div
                     class="card mx-3 mx-lg-0 mb-4"
@@ -148,7 +158,7 @@
                               rel="noopener noreferrer"
                               :href="`https://www.google.com/maps/search/${store.properties.name}+${store.properties.address}`"
                             >
-                              <u>於地圖查看</u>
+                              <u>查看地圖</u>
                             </a>
                           </small>
                         </div>
@@ -200,7 +210,7 @@
                         <p v-else>還有 {{filterData.length - loadingData}} 筆</p>
                       </small>
                     </div>
-                    <div class="button-group" :class="{'py-5':filterData.length>1}">
+                    <div class="button-group">
                       <button
                         class="btn btn-primary btn-rounded py-2 btn-shadow load"
                         style="width:40%"
@@ -208,54 +218,23 @@
                         @click="loadMore"
                       >查看更多</button>
                       <button
-                        class="btn btn-primary btn-shadow mb-2 btn-circle d-none d-md-flex"
-                        @click="scrollToTop"
+                        class="btn btn-primary btn-shadow btn-circle d-flex position-go-top fade"
+                        :class="{'d-flex show':scrollFlag}"
+                        @click="backToTop"
                         v-if="filterData.length>1"
                       >TOP</button>
-                      <div class="d-flex d-md-none">
-                        <go-top
-                          :size="46"
-                          :left="80"
-                          :right="30"
-                          :bottom="180"
-                          :bottom-gap="50"
-                          :z-index="100"
-                          fg-color="white"
-                          bg-color="#34495e"
-                          :radius="46"
-                          weight="bold"
-                          ripple-bg="rgba(0, 0, 0, .5)"
-                          :max-width="0"
-                          :has-outline="false"
-                          box-shadow="0px 5px 20px #34495e4d"
-                          :src="this.publicPath +'icon/goTop.svg'"
-                        ></go-top>
-                      </div>
+                      <button
+                        class="btn btn-primary btn-shadow btn-circle d-none d-lg-flex position-go-card"
+                        @click="backToCard"
+                        v-if="filterData.length>1"
+                      >TOP</button>
                     </div>
                   </div>
                 </template>
-                <div class="mb-4 mx-3 mx-md-0 text-primary d-flex" v-if="searchStatus">
+                <div class="mb-4 mx-3 mx-md-0 text-primary d-flex" :class="{'show-animation':filterData<=0}" v-if="filterData<=0">
                   查無此地點
                   <i class="material-icons ml-1">error</i>
                 </div>
-                <footer
-                  class="footer align-items-center d-flex d-lg-none"
-                  :class="{'fixed-bottom':filterData.length<=1}"
-                >
-                  <div class="container align-items-center d-flex align-items-center">
-                    <div class>
-                      <div class="text-left text-primary h6 mb-0">防疫專線 1922 ｜ 口罩資訊 1911</div>
-                      <small class="text-left text-muted">
-                        <a
-                          href="https://github.com/HuiyuLiz"
-                          target="_blank"
-                          title="github"
-                          class="text-secondary"
-                        >Huiyu Li</a> / PY Design
-                      </small>
-                    </div>
-                  </div>
-                </footer>
               </div>
             </div>
 
@@ -285,11 +264,17 @@
                 </button>
               </div>
             </template>
+          <footerComponent :class="{'fixed-bottom':filterData.length<=0 || isFocus}"></footerComponent>
           </div>
           <!--================= Map =================-->
           <div class="col-md-7 d-none d-lg-flex mb-5 flex-column justify-content-space min-height">
             <div id="map" ref="map" class="h-100 w-100 mb-3">
-              <button class="btn btn-location" id="geolocation" @click="getUserLocation">
+              <button
+                class="btn btn-location"
+                id="geolocation"
+                ref="geolocation"
+                @click="getUserLocation"
+              >
                 <i class="material-icons">my_location</i>
               </button>
             </div>
@@ -319,22 +304,27 @@ import L from "leaflet";
 import "leaflet.markercluster/dist/MarkerCluster.css";
 import "leaflet.markercluster/dist/MarkerCluster.Default.css";
 import "leaflet.markercluster/dist/leaflet.markercluster";
-import GoTop from "@inotom/vue-go-top";
 import CardStockItem from "@/components/CardStockItem.vue";
 import NavBar from "@/components/NavBar.vue";
 import Modal from "@/components/Modal.vue";
-
+import Loading from "@/components/Loading.vue";
+import FooterComponent from "@/components/FooterComponent.vue";
+import CityCountry from './assets/CityCountyData'
 export default {
   name: "App",
   components: {
     CardStockItem,
     NavBar,
     Modal,
-    VueBootstrapTypeahead,
-    GoTop
+    Loading,
+    FooterComponent,
+    VueBootstrapTypeahead
   },
   data() {
     return {
+      breakPointLg:992,
+      breakPointMd:768,
+      selectCity:null,
       screenWidth: 0,
       searchText: "",
       searchInput: "",
@@ -367,12 +357,19 @@ export default {
         none: "bg-secondary"
       },
       userLocation: [],
-      searchStatus: false,
       addressSearch: "",
       selectedAddress: null,
       getLocalData: [],
       initData: [],
-      isInit: true
+      isInit: true,
+      scrollFlag: false,
+      scrollTop: 0,
+      addresses: [],
+      CityCountry:CityCountry,
+      index:{
+        city:null,
+        area:null
+      },
     };
   },
   watch: {
@@ -380,29 +377,29 @@ export default {
       let vm = this;
       if (val.length > 0) {
         setTimeout(() => {
-          vm.searchStatus = false;
+          vm.isFade = true;
         }, 1000);
-      } else {
         setTimeout(() => {
-          vm.searchStatus = true;
-        }, 1000);
-      }
+          vm.isLoading = false;
+        }, 2000);
+      } 
     },
     isClicked() {
       let vm = this;
       if (vm.isClicked === true) {
         setTimeout(() => {
           vm.isClicked = false;
-        }, 1500);
+        }, 2000);
       }
     },
     searchTextRegex: _.debounce(function(newVal) {
-      this.getAddresses(newVal);
+      let vm=this
+      vm.getAddresses(newVal);
     }, 500),
     screenWidth: {
       handler(val) {
         let vm = this;
-        if (val >= 768) {
+        if (val >= vm.breakPointMd ) {
           vm.isFocus = false;
         }
       },
@@ -410,45 +407,87 @@ export default {
     }
   },
   computed: {
+    cityIndex:{
+      get(){
+        let vm=this
+        return vm.index.city
+      },
+      set(val){
+        let vm=this
+        vm.index.city=val    
+        vm.index.area=null
+        vm.resetInput()
+      }
+    },
+     areaIndex:{
+      get(){
+        let vm=this
+        return vm.index.area
+      },
+      set(val){
+        let vm=this
+        vm.index.area=val
+        vm.resetInput()
+      }
+    },
+    areas(){
+      let vm=this
+      return vm.cityIndex!==null?CityCountry[vm.cityIndex].children:[]
+    },
+    currentCity(){
+      let vm=this
+      return vm.index.city!==null?vm.CityCountry[vm.index.city].name:''
+    },
+    currentArea(){
+      let vm=this
+      return vm.index.area!==null?vm.CityCountry[vm.index.city].children[vm.index.area].name:''
+    },
     publicPath() {
       return process.env.BASE_URL;
     },
-    addresses() {
+    searchTextRegex:{
+      get(){
       let vm = this;
-      let result = [];
-      vm.data.reduce((pre, country) => {
-        result.push(country.properties.address);
-      }, result);
-      return result;
+      let regex = new RegExp(/^\u53f0+|^\u81fa+/);
+      let str = vm.searchText.replace(/\s*/g, "");
+      return str.match(regex)?str.replace(/^\u53f0/, "\u81fa"):str
+      },
+      set(val){
+        let vm=this
+        vm.value=val
+      }     
     },
-    searchTextRegex() {
-      let vm = this;
-      let str = vm.searchText;
-      str = str.replace(/\s*/g, "");
-      return str;
+    FilterByCity(){
+      let vm = this
+      let result
+      vm.currentCity!==''?result=vm.data.filter(d=>d.properties.county===vm.currentCity):result=vm.data
+      return result 
     },
-    allStores() {
-      let vm = this;
-      if (vm.isUserLocation) {
-        return (vm.stores = vm.sortStores);
-      } else {
-        return (vm.stores = vm.data);
-      }
+    FilterByArea(){
+      let vm = this
+      let result
+      vm.currentArea!==''?result=vm.FilterByCity.filter(d=>d.properties.town===vm.currentArea):result=vm.FilterByCity
+      return result
     },
     filterData() {
       let vm = this;
       if (vm.isUserLocation) {
         return (vm.stores = vm.sortStores);
       } else {
-        vm.stores = vm.data;
+        vm.stores = vm.FilterByArea;
+        // let regex = new RegExp(/\u53f0+|\u81fa+/); //同時回傳'臺'、'台'開頭的地址
         if (vm.searchTextRegex !== "") {
           return vm.stores.filter(data => {
             let address = data.properties.address;
             vm.searchInput = vm.searchTextRegex;
-            return address.indexOf(vm.searchTextRegex) !== -1;
+            return (
+              address
+                .replace(/^\u53f0/, "\u81fa")
+                .indexOf(vm.searchTextRegex) !== -1
+            );
           });
         } else {
-          return vm.data;
+          return vm.FilterByArea;
         }
       }
     },
@@ -462,7 +501,38 @@ export default {
     }
   },
   methods: {
-    scrollToTop() {
+    resetInput(){
+      let vm=this
+      if(vm.cityIndex!==null||vm.areaIndex!==null){
+        vm.searchText=''
+        vm.searchInput=''
+        vm.searchTextRegex=''
+        vm.selectedAddress=''
+        vm.$refs.typeahead.inputValue =''
+        vm.isLoading = true;
+        vm.loadingData = 5;        
+        setTimeout(() => {
+          vm.isLoading = false;
+          vm.setView() 
+        },1000);
+      }
+      if(vm.screenWidth>=vm.breakPointLg){
+        vm.backToCard();
+      }
+    },
+    stopMapEvent() {
+      // 阻止自訂按鈕觸發原始地圖事件
+      let vm = this;
+      let el = vm.$refs.geolocation;
+      L.DomEvent.addListener(el, "click", function(e) {
+        L.DomEvent.preventDefault(e);
+      });
+      L.DomEvent.addListener(el, "mousedown dblclick", function(e) {
+        L.DomEvent.stopPropagation(e);
+      });
+    },
+    backToCard() {
+      // vm.breakPointLgpx以上回到卡片第一張
       let vm = this;
       let el = vm.$refs.card[0];
       if (el) {
@@ -472,6 +542,34 @@ export default {
         });
       }
     },
+    backToTop() {
+      // vm.breakPointMd px以下回到頁面頂端
+      let vm = this;
+      let timer = setInterval(() => {
+        let speed = Math.floor(-vm.scrollTop / 5);
+        document.documentElement.scrollTop = document.body.scrollTop =
+          vm.scrollTop + speed;
+        if (vm.scrollTop === 0) {
+          clearInterval(timer);
+        }
+      }, 15);
+    },
+    scrollToTop() {
+      let vm = this;
+      vm.scrollTop =
+        window.pageYOffset ||
+        document.documentElement.scrollTop ||
+        document.body.scrollTop;
+      if (vm.screenWidth <= vm.breakPointLg) {
+        if (vm.scrollTop > 80) {
+          vm.scrollFlag = true;
+        } else {
+          vm.scrollFlag = false;
+        }
+      } else {
+        vm.scrollFlag = false;
+      }
+    },
     onFocus() {
       let vm = this;
       vm.isFocus = !vm.isFocus;
@@ -479,6 +577,13 @@ export default {
     getAddresses(newVal) {
       let vm = this;
       if (newVal) {
+        vm.addresses = [];
+        vm.filterData.forEach((f, index) => {
+          if (index < 8) {
+            vm.addresses.push(f.properties.address);          
+          }
+        });
+
         vm.isLoading = true;
         vm.loadingData = 5;
         vm.isUserLocation = false;
@@ -487,16 +592,9 @@ export default {
           vm.isLoading = false;
         }, 1200);
       }
-      if (vm.filterStore.length <= 0) {
-        setTimeout(() => {
-          vm.searchStatus = true;
-        }, 1000);
-      } else {
-        vm.searchStatus = false;
-      }
       vm.setLocalStorage(newVal);
       if (vm.isUserLocation) return;
-      vm.$nextTick(vm.searchLocation);
+      vm.$nextTick(vm.setView);
     },
     setLocalStorage(newVal) {
       let vm = this;
@@ -525,10 +623,10 @@ export default {
       vm.searchText = data;
       vm.isFocus = !vm.isFocus;
     },
-    searchLocation() {
+    setView() {
       let vm = this;
       vm.isUserLocation = false;
-      // vm.isFade = false;
+      // 地圖移動到第一個
       if (vm.filterStore.length > 0) {
         let store = vm.filterStore[0];
         let [storeLat, storeLng] = [
@@ -538,9 +636,6 @@ export default {
         vm.map.setView([storeLat, storeLng], 16);
       }
       vm.scrollToTop();
-      // setTimeout(() => {
-      //   vm.isFade = true;
-      // }, 500);
     },
     moveToStore(store) {
       let vm = this;
@@ -569,20 +664,15 @@ export default {
     },
     getUserLocation() {
       let vm = this;
-      vm.searchText = "";
-      vm.$refs.typeahead.inputValue = "";
+      vm.stopMapEvent();
+      vm.searchText=''
+      vm.$refs.typeahead.inputValue =''
+      vm.index.city=null
+      vm.index.area=null
       vm.isUserLocation = true;
-      vm.isFade = false;
-      vm.isLoading = true;
       if (vm.isClicked) return;
-      setTimeout(() => {
-        vm.initMap();
-        vm.getGeolocation();
-      }, 500);
-      setTimeout(() => {
-        vm.isLoading = false;
-        vm.isFade = true;
-      }, 1500);
+      vm.initMap();
+      vm.getGeolocation();
       vm.isFocus = false;
       vm.isClicked = true;
       vm.searchInput = "目前位置";
@@ -602,10 +692,6 @@ export default {
             let lat = position.coords.latitude;
             let lng = position.coords.longitude;
             vm.addUserMarker(lat, lng);
-            setTimeout(() => {
-              vm.isLoading = false;
-              vm.isFade = true;
-            }, 2000);
           },
           function(error) {
             clearTimeout(location_timeout);
@@ -615,6 +701,10 @@ export default {
               vm.isFade = true;
             }, 2000);
             console.log(error);
+          },
+          {
+            enableHighAccuracy: true,
+            timeout: 50000
           }
         );
       } else {
@@ -784,9 +874,6 @@ export default {
           "https://raw.githubusercontent.com/kiang/pharmacies/master/json/points.json?fbclid=IwAR1dnONo5ndjbYoiQOHymhawhbnRDFKmWVjQT4A5gV5Wo4zccyBvp0peAgk"
         )
         .then(response => {
-          // response.data.features
-          //   ? (vm.data = Object.freeze(response.data.features))
-          //   : (vm.data = []);
           let data = response.data.features
             ? Object.freeze(response.data.features)
             : [];
@@ -798,17 +885,14 @@ export default {
               }
             });
             vm.data = vm.initData;
-            console.log("init", vm.data.length);
             setTimeout(() => {
               vm.data = data;
               vm.getMarkers();
               vm.initMap();
               vm.isInit = false;
-              console.log(vm.data.length, vm.isInit);
             }, 4000);
           } else {
             vm.data = data;
-            console.log("現有資料再重整", vm.data.length, vm.isInit);
           }
 
           let update_time = vm.data[0].properties.updated;
@@ -893,6 +977,10 @@ export default {
       vm.screenWidth = window.innerWidth;
     }
   },
+  mounted() {
+    let vm = this;
+    window.addEventListener("scroll", vm.scrollToTop);
+  },
   created() {
     let vm = this;
     vm.getLocalStorage();
@@ -905,6 +993,7 @@ export default {
   destroyed() {
     let vm = this;
     window.removeEventListener("resize", vm.getResize);
+    window.removeEventListener("scroll", vm.scrollToTop);
   }
 };
 </script>

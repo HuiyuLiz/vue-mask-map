@@ -1,619 +1,480 @@
 @import "~bootstrap/scss/functions";
 @import "./helpers/_variables";
 @import "~bootstrap/scss/bootstrap";
-
 @import "./components/card";
 @import "./components/_mapController";
 @import "./components/_scrollBar";
 @import "./components/_navbar";
-
+@import "./components/_loading";
+@import "./components/_modal";
 [v-cloak] {
-  display: none;
-  transition-delay: 2s;
+    display: none;
+    transition-delay: 2s;
 }
 
 html {
-  position: relative;
-  min-height: 100%;
+    position: relative;
+    min-height: 100%;
 }
 
 body {
-  height: 10vh;
-  font-family: "Noto Sans TC", "Material Icons", "Microsoft JhengHei ", sans-serif;
-  overflow: hidden;
-
-  @media (max-width: 768px) {
-    overflow: auto;
-  }
-}
-
-.material-icons {
-  user-select: none;
-}
-
-.footer {
-  width: 100%;
-  height: 10vh;
-  vertical-align: center;
-
-  @media (max-width: 576px) {
-    background-color: $primary;
-
-    .text-primary {
-      color: white !important;
+    height: 10vh;
+    font-family: "Noto Sans TC", "Material Icons", "Microsoft JhengHei ", sans-serif;
+    overflow: hidden;
+    @media (max-width: 992px) {
+        overflow: auto;
+        background-color: $light;
     }
-
-    .text-muted {
-      color: $text-muted;
-    }
-  }
-}
-
-.fixed-bottom {
-  z-index: 1000 !important;
 }
 
 li {
-  list-style: none;
+    list-style: none;
 }
 
 p {
-  font-size: 14px !important;
+    font-size: 14px !important;
 }
 
 input,
 select,
 textarea {
-  color: $primary;
+    color: $primary;
+}
+
+.material-icons {
+    user-select: none;
+}
+
+.footer {
+    width: 100%;
+    height: 60px;
+    vertical-align: center;
+    @media (max-width: 576px) {
+        background-color: $primary;
+        .text-primary {
+            color: white !important;
+        }
+        .text-muted {
+            color: $text-muted;
+        }
+    }
+}
+
+.fixed-bottom {
+    z-index: 1000 !important;
 }
 
 .flex-fluid {
-  margin-left: -15px;
-  margin-right: -15px;
-  height: 35px;
+    margin-left: -15px;
+    margin-right: -15px;
+    height: 35px;
 }
 
 .border-bottom {
-  border-bottom-color: #34495e33 !important;
-  border-bottom-width: 1px !important;
+    border-bottom-color: #34495e33 !important;
+    border-bottom-width: 1px !important;
 }
 
 .w-90 {
-  width: 90% !important;
+    width: 90% !important;
 }
 
 .min-height {
-  height: 85vh;
-
-  @media (max-width: 992px) {
-    height: 90vh;
-  }
-}
-
-.scroll-height {
-  position: absolute;
-  height: 400px;
-  top: 220px;
-  left: 0;
-  right: 0;
-  bottom: 20px;
-  background-color: pink;
+    height: 85vh;
+    @media (max-width: 992px) {
+        height: 90vh;
+    }
 }
 
 .card-list {
-  position: absolute;
-  top: 210px;
-  bottom: 1.5rem;
-  left: 0;
-  right: 0;
-  display: flex;
-  flex-direction: column;
-  width: 100%;
-
-  @media (max-width: 768px) {
-    position: relative;
-    top: 0;
-    margin-right: 0;
-  }
+    position: absolute;
+    top: 260px;
+    bottom: 1.5rem;
+    left: 0;
+    right: 0;
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    @media (max-width: 996px) {
+        position: relative;
+        top: 0;
+        margin-right: 0;
+    }
 }
 
 .scrollable-content {
-  flex-grow: 1;
-  overflow: auto;
-  display: flex;
-  flex-direction: column;
-
-  @media (max-width: 576px) {
-    overflow: hidden;
-  }
+    overflow: auto;
+    @media (max-width: 576px) {
+        overflow: hidden;
+    }
 }
 
 .main {
-  position: relative;
-  height: 90vh;
-  overflow: hidden;
+    position: relative;
+    height: 90vh;
+    overflow: hidden;
 }
 
 .load-data {
-  animation: fadeIn 0.3s ease-in;
-  animation-delay: 1.5s;
-  visibility: hidden;
-  opacity: 0;
-  animation-fill-mode: forwards;
-  transition: all ease-in-out;
-  z-index: 3;
-  height: 25px;
+    animation: fadeIn 0.3s ease-in;
+    animation-delay: 1.5s;
+    visibility: hidden;
+    opacity: 0;
+    animation-fill-mode: forwards;
+    transition: all ease-in-out;
+    z-index: 3;
+    height: 25px;
 }
 
 .button-group {
-  position: relative;
-  width: 100%;
-  padding: 1.5rem 0;
+    position: relative;
+    width: 100%;
+    height: calc(60px + 1.75rem);
+    // outline: 1px solid red;
 }
 
 .btn-circle {
-  position: absolute;
-  top: 1%;
-  left: 80%;
-  width: 46px;
-  height: 46px;
-  border-radius: 46px !important;
-  font-size: 0.75rem;
-  text-align: center;
-  display: flex;
-  justify-content: center;
-  animation: fadeIn 0.3s ease-in;
-  animation-delay: 1.5s;
-  visibility: hidden;
-  opacity: 0;
-  animation-fill-mode: forwards;
-  transition: all ease-in-out;
+    width: 46px;
+    height: 46px;
+    border-radius: 46px !important;
+    font-size: 0.75rem;
+    text-align: center;
+    display: flex;
+    justify-content: center;
+}
+
+.position-go-card {
+    position: absolute;
+    top: 0;
+    right: 5%;
+    animation: fadeIn 0.3s ease-in;
+    animation-delay: 1.5s;
+    visibility: hidden;
+    opacity: 0;
+    animation-fill-mode: forwards;
+    transition: all ease-in-out;
+    z-index: 1;
+}
+
+.position-go-top {
+    position: fixed;
+    bottom: calc(74px + 1.75rem);
+    left: 80%;
+}
+
+.show-animation {
+    animation: lateshow 0.15s ease-in;
+    transition: opacity 3s;
+}
+
+.btn-scroll-animation {
+    animation: EaseIn 0.15s ease-in;
+    animation-delay: 0.15s;
 }
 
 .load {
-  position: absolute;
-  top: 0;
-  left: 30%;
-  animation: fadeIn 0.3s ease-in;
-  animation-delay: 1.5s;
-  visibility: hidden;
-  opacity: 0;
-  animation-fill-mode: forwards;
-  transition: all ease-in-out;
-  z-index: 1;
+    position: absolute;
+    top: 0;
+    left: 30%;
+    animation: fadeIn 0.3s ease-in;
+    animation-delay: 1.5s;
+    visibility: hidden;
+    opacity: 0;
+    animation-fill-mode: forwards;
+    transition: all ease-in-out;
+    z-index: 1;
+    @media (max-width: 992px) {
+        bottom: 0%;
+    }
+}
 
-  @media (max-width: 992px) {
-    bottom: 0%;
-  }
+@keyframes lateshow {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
 }
 
 @keyframes fadeIn {
-  from {
-    visibility: hidden;
-    opacity: 0;
-    transform: translateY(-30px);
-  }
+    from {
+        visibility: hidden;
+        opacity: 0;
+        transform: translateY(-30px);
+    }
+    to {
+        visibility: visible;
+        opacity: 1;
+        transform: translateY(0px);
+    }
+}
 
-  to {
-    visibility: visible;
-    opacity: 1;
-    transform: translateY(0px);
-  }
+@keyframes EaseIn {
+    0% {
+        transform: translateY(0px);
+    }
+    50% {
+        transform: translateY(30px);
+    }
+    100% {
+        transform: translateY(0px);
+    }
 }
 
 .font-weight-heavy {
-  font-weight: 800;
-  font-size: 2rem;
+    font-weight: 800;
+    font-size: 2rem;
 }
 
 input[type="text"] {
-  height: 46px;
-  color: $primary;
-  border-radius: 0.5rem;
+    height: 46px;
+    color: $primary;
+    border-radius: 0.5rem;
 }
 
 .btn {
-  border-radius: 0.5rem;
-  height: 46px;
+    border-radius: 0.5rem;
+    height: 46px;
 }
 
 .border-bold {
-  border-width: 2px;
+    border-width: 2px;
 }
 
 button:focus {
-  outline: 1px none;
+    outline: 1px none;
 }
 
 .btn-small {
-  width: 52px;
-  height: 26px;
-  border-radius: 20px;
-  line-height: 26px;
-  border-width: 2px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  padding: 0.5rem;
-  position: relative;
-
-  small {
-    position: absolute;
-    top: -1px;
-    left: 12px;
-  }
+    width: 52px;
+    height: 26px;
+    border-radius: 20px;
+    line-height: 26px;
+    border-width: 2px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 0.5rem;
+    position: relative;
+    small {
+        position: absolute;
+        top: -1px;
+        left: 12px;
+    }
 }
 
 .btn-rounded {
-  opacity: 1;
-  border-radius: 1.5rem;
+    opacity: 1;
+    border-radius: 1.5rem;
 }
 
 .btn-shadow {
-  box-shadow: 0px 5px 20px #34495e4d;
+    box-shadow: 0px 5px 20px #34495e4d;
 }
 
 .btn-outline-light {
-  border: 2px solid white !important;
-  color: white !important;
-  background: $primary !important;
-
-  &:active,
-  &:hover {
-    background: white !important;
-    color: $primary !important;
-  }
-}
-
-.close {
-  font-weight: 400;
-  font-size: 2rem;
-  color: white;
-  text-shadow: 0 0px 0 #fff;
-  opacity: 1;
-}
-
-.modal-content {
-  background-color: transparent;
-  border: none;
-}
-
-.modal {
-  /* display: block; */
-  z-index: 1001;
-  background-color: rgba(0, 0, 0, 0.5);
-  animation: modalShow 0.5s;
-  height: 100vh;
-
-  @keyframes modalShow {
-    0% {
-      opacity: 0;
+    border: 2px solid white !important;
+    color: white !important;
+    background: $primary !important;
+    &:active,
+    &:hover {
+        background: white !important;
+        color: $primary !important;
     }
-
-    100% {
-      opacity: 1;
-    }
-  }
-}
-
-.modal-dialog {
-  // transform: translate(0, -50%);
-  margin: 0 auto;
-  animation: slideUp 0.5s;
-  transition: all 0.5s 0.3s ease-in;
-
-  @keyframes slideUp {
-    0% {
-      top: -30%;
-    }
-
-    100% {
-      top: 0%;
-    }
-  }
-}
-
-.lds-ellipsis {
-  display: inline-block;
-  position: relative;
-  width: 80px;
-  height: 20px;
-  margin-left: 5px;
-}
-
-.lds-ellipsis div {
-  position: absolute;
-  bottom: calc(25px / 4);
-  width: 8px;
-  height: 8px;
-  border-radius: 50%;
-  background-color: #fafafa;
-  animation-timing-function: cubic-bezier(0, 1, 1, 0);
-}
-
-.lds-ellipsis div:nth-child(1) {
-  left: 8px;
-  animation: lds-ellipsis1 0.6s infinite;
-  background-color: rgba(0, 0, 0, 0.5);
-}
-
-.lds-ellipsis div:nth-child(2) {
-  left: 8px;
-  animation: lds-ellipsis2 0.6s infinite;
-  background-color: #70777c91;
-}
-
-.lds-ellipsis div:nth-child(3) {
-  left: 32px;
-  animation: lds-ellipsis2 0.6s infinite;
-  background-color: #70777c91;
-}
-
-.lds-ellipsis div:nth-child(4) {
-  left: 56px;
-  animation: lds-ellipsis3 0.6s infinite;
-  background-color: #70777c91;
-}
-
-@keyframes lds-ellipsis1 {
-  0% {
-    transform: scale(0);
-  }
-
-  100% {
-    transform: scale(1);
-  }
-}
-
-@keyframes lds-ellipsis3 {
-  0% {
-    transform: scale(1);
-  }
-
-  100% {
-    transform: scale(0);
-  }
-}
-
-@keyframes lds-ellipsis2 {
-  0% {
-    transform: translate(0, 0);
-  }
-
-  100% {
-    transform: translate(24px, 0);
-  }
 }
 
 .markerHtmlStyles {
-  width: 2.4rem;
-  height: 2.4rem;
-  display: block;
-  left: -1.2rem;
-  top: -0.75rem;
-  position: relative;
-
-  .material-icons {
-    text-align: center;
-    font-size: 2.4rem;
-    z-index: 999;
+    width: 2.4rem;
+    height: 2.4rem;
+    display: block;
+    left: -1.2rem;
+    top: -0.75rem;
     position: relative;
-    display: inline-block;
-    text-shadow: 0 3px 5px rgba(0, 0, 0, 0.4);
-
-    &:after {
-      content: "";
-      display: block;
-      width: 9px;
-      height: 9px;
-      background-color: #fff;
-      position: absolute;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -95%);
-      border-radius: 9px;
+    .material-icons {
+        text-align: center;
+        font-size: 2.4rem;
+        z-index: 999;
+        position: relative;
+        display: inline-block;
+        text-shadow: 0 3px 5px rgba(0, 0, 0, 0.4);
+        &:after {
+            content: "";
+            display: block;
+            width: 9px;
+            height: 9px;
+            background-color: #fff;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -95%);
+            border-radius: 9px;
+        }
     }
-  }
 }
 
 .form-group {
-  position: relative;
-
-  input {
-    position: absolute;
-    top: 0;
-    left: 0;
-  }
-
-  .select-input {
-    position: absolute;
-    top: 45px;
-    left: 0;
-  }
+    position: relative;
+    input {
+        position: absolute;
+        top: 0;
+        left: 0;
+    }
+    .select-input {
+        position: absolute;
+        top: 45px;
+        left: 0;
+    }
 }
 
 .form-control {
-  height: 46px;
-  width: 100%;
-  position: relative;
+    height: 46px;
+    width: 100%;
+    position: relative;
 }
 
 .arrow-input-group {
-  .arrow-back-input {
-    position: absolute;
-    width: 100%;
-    right: 0;
-    animation: shrink 0.5s forwards ease-in-out;
-  }
-
-  .arrow-back-icon {
-    position: absolute;
-    top: 12px;
-    left: 0;
-  }
+    .arrow-back-input {
+        position: absolute;
+        width: 100%;
+        right: 0;
+        animation: shrink 0.5s forwards ease-in-out;
+    }
+    .arrow-back-icon {
+        position: absolute;
+        top: 12px;
+        left: 0;
+    }
 }
 
 @keyframes shrink {
-  0% {
-    width: 100%;
-  }
-
-  100% {
-    width: 90%;
-  }
+    0% {
+        width: 100%;
+    }
+    100% {
+        width: 90%;
+    }
 }
 
 .input-icon-group {
-  width: 100%;
-  height: 46px;
-  position: relative;
-
-  .input-icon {
-    position: absolute;
-    z-index: 998;
-    right: 10px;
-    top: calc(25% + 1px);
-
-    .material-icons {
-      color: $primary;
+    width: 100%;
+    height: 46px;
+    position: relative;
+    .input-icon {
+        position: absolute;
+        z-index: 998;
+        right: 10px;
+        top: calc(25% + 1px);
+        .material-icons {
+            color: $primary;
+        }
     }
-  }
 }
 
 .btn:focus,
 .btn.focus {
-  box-shadow: 0 0 0 0.2rem rgba(255, 255, 255, 0);
+    box-shadow: 0 0 0 0.2rem rgba(255, 255, 255, 0);
 }
 
 .btn-location {
-  position: absolute;
-  right: 10px;
-  bottom: 140px;
-  z-index: 800;
-  width: 44px;
-  height: 44px;
-  border-radius: 44px;
-  background-color: #fff;
-  box-shadow: none;
-  border: none;
-  box-shadow: 0px 3px 3px 1px rgba(0, 0, 0, 0.1);
-  color: $primary;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-
-  &:hover,
-  &:active {
-    background-color: #f4f4f4;
+    position: absolute;
+    right: 10px;
+    bottom: 140px;
+    z-index: 800;
+    width: 44px;
+    height: 44px;
+    border-radius: 44px;
+    background-color: #fff;
+    box-shadow: none;
+    border: none;
+    box-shadow: 0px 3px 3px 1px rgba(0, 0, 0, 0.1);
     color: $primary;
-  }
-
-  @media (max-width: 768px) {
-    bottom: 20px;
-    right: 15px;
-    width: 48px;
-    height: 48px !important;
-    border-radius: 48px;
-  }
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    &:hover,
+    &:active {
+        background-color: #f4f4f4;
+        color: $primary;
+    }
+    @media (max-width: 768px) {
+        width: 48px;
+        height: 48px !important;
+        border-radius: 48px;
+        position: fixed;
+        bottom: calc(74px + 1.75rem);
+        left: 80%;
+    }
 }
 
 .container-fluid {
-  width: 100%;
-  height: 100vh;
-  position: absolute;
-  top: 0;
-  left: 0;
-  bottom: 0;
-  right: 0;
-  z-index: 2000;
-
-  &.animation-delay {
-    animation: easeOut;
-    animation-duration: 1s;
-    animation-delay: 3s;
-    animation-fill-mode: forwards;
-  }
+    width: 100%;
+    height: 100vh;
+    position: absolute;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    z-index: 2000;
+    &.animation-delay {
+        animation: easeOut;
+        animation-duration: 1s;
+        animation-delay: 3s;
+        animation-fill-mode: forwards;
+    }
 }
 
 .block {
-  width: 25%;
-  height: 100px;
-  margin: 0 auto;
-  text-align: center;
+    width: 25%;
+    height: 100px;
+    margin: 0 auto;
+    text-align: center;
 }
 
 .loading span {
-  display: inline-block;
-  padding: 15px;
-  border-radius: 50%;
+    display: inline-block;
+    padding: 15px;
+    border-radius: 50%;
 }
 
 .ball1 {
-  background: $green;
-  animation: move-left 800ms ease-in-out alternate infinite;
+    background: $green;
+    animation: move-left 800ms ease-in-out alternate infinite;
 }
 
 .ball2 {
-  background: $orange;
-  animation: move-right 800ms ease-in-out alternate infinite;
+    background: $orange;
+    animation: move-right 800ms ease-in-out alternate infinite;
 }
 
 @keyframes move-left {
-  to {
-    transform: translate(30px, 0);
-    background: $orange;
-  }
+    to {
+        transform: translate(30px, 0);
+        background: $orange;
+    }
 }
 
 @keyframes move-right {
-  to {
-    transform: translate(-30px, 0);
-    background: $green;
-  }
+    to {
+        transform: translate(-30px, 0);
+        background: $green;
+    }
 }
 
 @keyframes easeOut {
-  0% {
-    display: flex;
-    opacity: 1;
-    top: 0;
-  }
-
-  100% {
-    display: none;
-    top: -150%;
-  }
-}
-
-.overflow-xs-auto {
-  // overflow: hidden;
-
-  // @media (max-width: 768px) {
-  //   overflow: scroll;
-  // }
+    0% {
+        display: flex;
+        opacity: 1;
+        top: 0;
+    }
+    100% {
+        display: none;
+        top: -150%;
+    }
 }
 
 .overflow-md-auto {
-  overflow: auto;
-  max-height: 60vh;
-
-  @media (max-width: 768px) {
-  }
-}
-
-.vue-go-top__content {
-  // &::after {
-  //   content: "AA";
-  //   display: block;
-  //   width: 46px;
-  //   height: 46px;
-  //   position: absolute;
-  //   top: 0;
-  //   right: 0;
-  //   left: 0;
-  //   bottom: 0;
-  //   background-color: red;
-  //   color: white;
-  //   z-index: 99999;
-  // }
+    overflow: auto;
+    max-height: 60vh;
+    @media (max-width: 768px) {}
 }

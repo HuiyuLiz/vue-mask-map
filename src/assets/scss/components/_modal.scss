@@ -1,0 +1,45 @@
+.close {
+  font-weight: 400;
+  font-size: 2rem;
+  color: white;
+  text-shadow: 0 0px 0 #fff;
+  opacity: 1;
+}
+
+.modal-content {
+  background-color: transparent;
+  border: none;
+}
+
+.modal {
+  z-index: 1001;
+  background-color: rgba(0, 0, 0, 0.5);
+  animation: modalShow 0.5s;
+  height: 100vh;
+
+  @keyframes modalShow {
+    0% {
+      opacity: 0;
+    }
+
+    100% {
+      opacity: 1;
+    }
+  }
+}
+
+.modal-dialog {
+  margin: 0 auto;
+  animation: slideUp 0.5s;
+  transition: all 0.5s 0.3s ease-in;
+
+  @keyframes slideUp {
+    0% {
+      top: -30%;
+    }
+
+    100% {
+      top: 0%;
+    }
+  }
+}

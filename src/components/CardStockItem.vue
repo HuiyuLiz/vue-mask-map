@@ -5,7 +5,7 @@
       {{mask}}
       <span class="h7">片</span>
       <div class="icon-container">
-        <img :src="this.publicPath+status.icon" alt />
+        <img :src="this.publicPath+status.icon" alt style="width:48px;height:48px;display:block" />
       </div>
     </div>
   </div>
@@ -29,15 +29,15 @@ export default {
       stock_status: {
         full: {
           bg: "bg-success",
-          icon: "icon/ic_stock_full@2x.png"
+          icon: "icon/ic_stock_full@2x@2x.png"
         },
         few: {
           bg: "bg-warning",
-          icon: "icon/ic_stock_few@2x.png"
+          icon: "icon/ic_stock_few@2x@2x.png"
         },
         none: {
           bg: "bg-secondary",
-          icon: "icon/ic_stock_none@2x.png"
+          icon: "icon/ic_stock_none@2x@2x.png"
         }
       }
     };
