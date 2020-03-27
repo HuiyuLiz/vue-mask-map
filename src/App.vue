@@ -21,25 +21,23 @@
         :class="{'overflow-hidden':isFocus}"
       >
         <div class="row d-flex justify-content-sm-center">
-          <div class="col-md-8 col-lg-5 bg-light pt-2 mb-md-2 min-height px-0 px-md-3">
+          <div class="col-md-8 col-lg-5 bg-light pt-2 mb-md-2 min-height px-0 px-md-3" :class="{'overflow-hidden':currentRouter === '口罩怎麼買'}">
             <!--================= Search Input =================-->
-             <div class="form-row px-3 mb-3" v-if="!isFocus">
+             <div class="form-row px-3 mt-3 mt-md-4 mb-3" v-if="!isFocus">
               <div class="col">
-                <label for="city"></label>
                 <select class="form-control" id="city" v-model="cityIndex">
                   <option :value="null" selected>全部縣市</option>
                   <option v-for="(city,index) in CityCountry" :key="index" :value="index">{{city.name}}</option>
                 </select>
               </div>
               <div class="col">
-                <label for="area"></label>
                 <select class="form-control" id="area" v-model="areaIndex">
                   <option :value="null" selected>全部區域</option>
                   <option v-for="(area,index) in areas" :key="index" :value="index">{{area.name}}</option>
                 </select>
               </div>
             </div>
-            <div class="d-flex justify-content-between mb-2 px-3" >
+            <div class="d-flex justify-content-between mb-1 px-3" >
               <div class="form-group d-none d-md-block" style="width:70%">
                 <vue-bootstrap-typeahead
                   v-model.trim="searchText"
@@ -49,7 +47,7 @@
                   ref="typeahead"
                 />
               </div>
-              <div class="form-group d-flex d-md-none w-100 mb-3" :class="{'mt-3':isFocus}">
+              <div class="form-group d-flex d-md-none w-100 mb-3 pb-1" :class="{'mt-3':isFocus}">
                 <div class="input-icon-group" v-if="!isFocus">
                   <input
                     type="text"
@@ -122,7 +120,7 @@
             <!--================= Store =================-->
 
             <div class="px-0 px-lg-3 card-list px-0 m-auto" v-if="!isFocus">
-              <div class="px-0 px-lg-3 scrollable-content mt-2 mt-md-4">
+              <div class="px-0 px-lg-3 scrollable-content mt-3 mt-md-4">
                 <template v-if="filterData.length > 0">
                   <div
                     class="card mx-3 mx-lg-0 mb-4"
