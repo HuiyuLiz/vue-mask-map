@@ -12,7 +12,7 @@
         <div class="modal-body p-0">
           <div class="d-flex justify-content-center px-3">
             <img
-              :src="this.publicPath +'jpg/policy.png'"
+              :src="this.publicPath +'jpg/mask news.jpg'"
               class="img-fluid"
               style="height:80vh;object-fit:contain;"
             />
@@ -42,10 +42,10 @@ export default {
       if (val === "口罩供給現況") {
         setTimeout(() => {
           vm.$refs.modal.className = "modal fade d-flex";
-        }, 300);
+        }, 0);
         setTimeout(() => {
           vm.$refs.modal.className = "modal ";
-        }, 800);
+        }, 200);
       } else {
         vm.$refs.modal.className = "modal fade show d-flex";
       }

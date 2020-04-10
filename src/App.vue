@@ -21,13 +21,20 @@
         :class="{'overflow-hidden':isFocus}"
       >
         <div class="row d-flex justify-content-sm-center">
-          <div class="col-md-8 col-lg-5 bg-light pt-2 mb-md-2 min-height px-0 px-md-3" :class="{'overflow-hidden':currentRouter === '口罩怎麼買'}">
+          <div
+            class="col-md-8 col-lg-5 bg-light pt-2 mb-md-2 min-height px-0 px-md-3"
+            :class="{'overflow-hidden':currentRouter === '口罩怎麼買'}"
+          >
             <!--================= Search Input =================-->
-             <div class="form-row px-3 mt-3 mt-md-4 mb-3" v-if="!isFocus">
+            <div class="form-row px-3 mt-3 mt-md-4 mb-3" v-if="!isFocus">
               <div class="col">
                 <select class="form-control" id="city" v-model="cityIndex">
                   <option :value="null" selected>全部縣市</option>
-                  <option v-for="(city,index) in CityCountry" :key="index" :value="index">{{city.name}}</option>
+                  <option
+                    v-for="(city,index) in CityCountry"
+                    :key="index"
+                    :value="index"
+                  >{{city.name}}</option>
                 </select>
               </div>
               <div class="col">
@@ -37,7 +44,7 @@
                 </select>
               </div>
             </div>
-            <div class="d-flex justify-content-between mb-1 px-3" >
+            <div class="d-flex justify-content-between mb-1 px-3">
               <div class="form-group d-none d-md-block" style="width:70%">
                 <vue-bootstrap-typeahead
                   v-model.trim="searchText"
@@ -84,8 +91,8 @@
                 <div class="align-middle">搜尋</div>
               </div>
             </div>
-            <div class="h3 text-primary d-flex align-items-baseline px-3" v-if="!isFocus">
-              <div class="h3 m-0 font-weight-heavy">{{day}}</div>
+            <div class="h3 text-primary d-flex align-items-baseline px-3 mb-3" v-if="!isFocus">
+              <div class="h3 m-0 font-weight-heavy">口罩實名制</div>
               <span class="h6 m-0 ml-2">購買日</span>
               <div @click="currentRouter='口罩怎麼買'" style="cursor:pointer;position:relative;top:3px">
                 <img
@@ -96,10 +103,7 @@
               </div>
             </div>
             <!--================= Refresh Button =================-->
-            <div
-              class="d-flex justify-content-between mb-3 px-3 align-items-end"
-              v-if="!isFocus"
-            >
+            <div class="d-flex justify-content-between mb-3 px-3 align-items-end" v-if="!isFocus">
               <small class="text-primary mb-0 d-flex flex-column">
                 <span class="pb-1" v-if="!isUserLocation">附近健保特約藥局或衛生所</span>
                 <span class="pb-1" v-else>距離方圓 3公里 以內的供應商</span>
@@ -229,7 +233,11 @@
                     </div>
                   </div>
                 </template>
-                <div class="mb-4 mx-3 mx-md-0 text-primary d-flex" :class="{'show-animation':filterData<=0}" v-if="filterData<=0">
+                <div
+                  class="mb-4 mx-3 mx-md-0 text-primary d-flex"
+                  :class="{'show-animation':filterData<=0}"
+                  v-if="filterData<=0"
+                >
                   查無此地點
                   <i class="material-icons ml-1">error</i>
                 </div>
@@ -262,7 +270,7 @@
                 </button>
               </div>
             </template>
-          <footerComponent :class="{'fixed-bottom':filterData.length<=0 || isFocus}"></footerComponent>
+            <Footer :class="{'fixed-bottom':filterData.length<=0}" v-if="!isFocus"></Footer>
           </div>
           <!--================= Map =================-->
           <div class="col-md-7 d-none d-lg-flex mb-5 flex-column justify-content-space min-height">
@@ -280,7 +288,7 @@
               <div class="text-primary h6 mb-0">防疫專線 1922 ｜ 口罩資訊 1911</div>
               <small class="text-secondary">
                 <a
-                  href="https://github.com/HuiyuLiz"
+                  href="https://github.com/HuiyuLiz/vue-mask-map"
                   target="_blank"
                   title="github"
                   class="text-secondary"
@@ -306,8 +314,8 @@ import CardStockItem from "@/components/CardStockItem.vue";
 import NavBar from "@/components/NavBar.vue";
 import Modal from "@/components/Modal.vue";
 import Loading from "@/components/Loading.vue";
-import FooterComponent from "@/components/FooterComponent.vue";
-import CityCountry from './assets/CityCountyData'
+import Footer from "@/components/Footer.vue";
+import CityCountry from "./assets/CityCountyData";
 export default {
   name: "App",
   components: {
@@ -315,14 +323,14 @@ export default {
     NavBar,
     Modal,
     Loading,
-    FooterComponent,
+    Footer,
     VueBootstrapTypeahead
   },
   data() {
     return {
-      breakPointLg:992,
-      breakPointMd:768,
-      selectCity:null,
+      breakPointLg: 992,
+      breakPointMd: 768,
+      selectCity: null,
       screenWidth: 0,
       searchText: "",
       searchInput: "",
@@ -363,11 +371,11 @@ export default {
       scrollFlag: false,
       scrollTop: 0,
       addresses: [],
-      CityCountry:CityCountry,
-      index:{
-        city:null,
-        area:null
-      },
+      CityCountry: CityCountry,
+      index: {
+        city: null,
+        area: null
+      }
     };
   },
   watch: {
@@ -380,7 +388,7 @@ export default {
         setTimeout(() => {
           vm.isLoading = false;
         }, 2000);
-      } 
+      }
     },
     isClicked() {
       let vm = this;
@@ -391,13 +399,13 @@ export default {
       }
     },
     searchTextRegex: _.debounce(function(newVal) {
-      let vm=this
+      let vm = this;
       vm.getAddresses(newVal);
     }, 500),
     screenWidth: {
       handler(val) {
         let vm = this;
-        if (val >= vm.breakPointMd ) {
+        if (val >= vm.breakPointMd) {
           vm.isFocus = false;
         }
       },
@@ -405,67 +413,75 @@ export default {
     }
   },
   computed: {
-    cityIndex:{
-      get(){
-        let vm=this
-        return vm.index.city
+    cityIndex: {
+      get() {
+        let vm = this;
+        return vm.index.city;
       },
-      set(val){
-        let vm=this
-        vm.index.city=val    
-        vm.index.area=null
-        vm.resetInput()
+      set(val) {
+        let vm = this;
+        vm.index.city = val;
+        vm.index.area = null;
+        vm.resetInput();
       }
     },
-     areaIndex:{
-      get(){
-        let vm=this
-        return vm.index.area
+    areaIndex: {
+      get() {
+        let vm = this;
+        return vm.index.area;
       },
-      set(val){
-        let vm=this
-        vm.index.area=val
-        vm.resetInput()
+      set(val) {
+        let vm = this;
+        vm.index.area = val;
+        vm.resetInput();
       }
     },
-    areas(){
-      let vm=this
-      return vm.cityIndex!==null?CityCountry[vm.cityIndex].children:[]
+    areas() {
+      let vm = this;
+      return vm.cityIndex !== null ? CityCountry[vm.cityIndex].children : [];
     },
-    currentCity(){
-      let vm=this
-      return vm.index.city!==null?vm.CityCountry[vm.index.city].name:''
+    currentCity() {
+      let vm = this;
+      return vm.index.city !== null ? vm.CityCountry[vm.index.city].name : "";
     },
-    currentArea(){
-      let vm=this
-      return vm.index.area!==null?vm.CityCountry[vm.index.city].children[vm.index.area].name:''
+    currentArea() {
+      let vm = this;
+      return vm.index.area !== null
+        ? vm.CityCountry[vm.index.city].children[vm.index.area].name
+        : "";
     },
     publicPath() {
       return process.env.BASE_URL;
     },
-    searchTextRegex:{
-      get(){
-      let vm = this;
-      let regex = new RegExp(/^\u53f0+|^\u81fa+/);
-      let str = vm.searchText.replace(/\s*/g, "");
-      return str.match(regex)?str.replace(/^\u53f0/, "\u81fa"):str
+    searchTextRegex: {
+      get() {
+        let vm = this;
+        let regex = new RegExp(/^\u53f0+|^\u81fa+/);
+        let str = vm.searchText.replace(/\s*/g, "");
+        return str.match(regex) ? str.replace(/^\u53f0/, "\u81fa") : str;
       },
-      set(val){
-        let vm=this
-        vm.value=val
-      }     
+      set(val) {
+        let vm = this;
+        vm.value = val;
+      }
     },
-    FilterByCity(){
-      let vm = this
-      let result
-      vm.currentCity!==''?result=vm.data.filter(d=>d.properties.county===vm.currentCity):result=vm.data
-      return result 
+    FilterByCity() {
+      let vm = this;
+      let result;
+      vm.currentCity !== ""
+        ? (result = vm.data.filter(d => d.properties.county === vm.currentCity))
+        : (result = vm.data);
+      return result;
     },
-    FilterByArea(){
-      let vm = this
-      let result
-      vm.currentArea!==''?result=vm.FilterByCity.filter(d=>d.properties.town===vm.currentArea):result=vm.FilterByCity
-      return result
+    FilterByArea() {
+      let vm = this;
+      let result;
+      vm.currentArea !== ""
+        ? (result = vm.FilterByCity.filter(
+            d => d.properties.town === vm.currentArea
+          ))
+        : (result = vm.FilterByCity);
+      return result;
     },
     filterData() {
       let vm = this;
@@ -499,22 +515,22 @@ export default {
     }
   },
   methods: {
-    resetInput(){
-      let vm=this
-      if(vm.cityIndex!==null||vm.areaIndex!==null){
-        vm.searchText=''
-        vm.searchInput=''
-        vm.searchTextRegex=''
-        vm.selectedAddress=''
-        vm.$refs.typeahead.inputValue =''
+    resetInput() {
+      let vm = this;
+      if (vm.cityIndex !== null || vm.areaIndex !== null) {
+        vm.searchText = "";
+        vm.searchInput = "";
+        vm.searchTextRegex = "";
+        vm.selectedAddress = "";
+        vm.$refs.typeahead.inputValue = "";
         vm.isLoading = true;
-        vm.loadingData = 5;        
+        vm.loadingData = 5;
         setTimeout(() => {
           vm.isLoading = false;
-          vm.setView() 
-        },1000);
+          vm.setView();
+        }, 1000);
       }
-      if(vm.screenWidth>=vm.breakPointLg){
+      if (vm.screenWidth >= vm.breakPointLg) {
         vm.backToCard();
       }
     },
@@ -578,7 +594,7 @@ export default {
         vm.addresses = [];
         vm.filterData.forEach((f, index) => {
           if (index < 8) {
-            vm.addresses.push(f.properties.address);          
+            vm.addresses.push(f.properties.address);
           }
         });
 
@@ -663,10 +679,10 @@ export default {
     getUserLocation() {
       let vm = this;
       vm.stopMapEvent();
-      vm.searchText=''
-      vm.$refs.typeahead.inputValue =''
-      vm.index.city=null
-      vm.index.area=null
+      vm.searchText = "";
+      vm.$refs.typeahead.inputValue = "";
+      vm.index.city = null;
+      vm.index.area = null;
       vm.isUserLocation = true;
       if (vm.isClicked) return;
       vm.initMap();

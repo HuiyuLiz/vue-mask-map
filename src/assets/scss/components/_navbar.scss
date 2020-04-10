@@ -21,6 +21,7 @@
 }
 
 .navbar.navbar-expand-lg {
+  min-height: 60px;
   height: 10vh;
   z-index: 1000;
   background-color: #fff;
@@ -30,6 +31,7 @@
   transition: background 0.3s ease;
 
   &.active {
+    min-height: 60px;
     height: 10vh;
     z-index: 1000;
     background-color: $primary;

@@ -1,0 +1,67 @@
+.container-fluid {
+  width: 100%;
+  height: 100vh;
+  position: absolute;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  z-index: 2000;
+
+  &.animation-delay {
+    animation: easeOut;
+    animation-duration: 1s;
+    animation-delay: 3s;
+    animation-fill-mode: forwards;
+  }
+}
+
+.block {
+  width: 25%;
+  height: 100px;
+  margin: 0 auto;
+  text-align: center;
+}
+
+.loading span {
+  display: inline-block;
+  padding: 15px;
+  border-radius: 50%;
+}
+
+.ball1 {
+  background: $green;
+  animation: move-left 800ms ease-in-out alternate infinite;
+}
+
+.ball2 {
+  background: $orange;
+  animation: move-right 800ms ease-in-out alternate infinite;
+}
+
+@keyframes move-left {
+  to {
+    transform: translate(30px, 0);
+    background: $orange;
+  }
+}
+
+@keyframes move-right {
+  to {
+    transform: translate(-30px, 0);
+    background: $green;
+  }
+}
+
+@keyframes easeOut {
+  0% {
+    display: flex;
+    opacity: 1;
+    top: 0;
+  }
+
+  100% {
+    display: none;
+    top: -150%;
+  }
+}
