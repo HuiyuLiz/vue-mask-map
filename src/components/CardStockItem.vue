@@ -1,11 +1,17 @@
 <template>
   <div class="card-md p-3 rounded" style="position:relative" :class="status.bg">
-    <div class="h6 pb-2 text-white font-weight-light">{{maskType}}口罩數量</div>
+    <div class="h6 pb-2 text-white font-weight-light">
+      {{ maskType }}口罩數量
+    </div>
     <div class="h4 mb-0 font-weight-bold text-white">
-      {{mask}}
+      {{ mask }}
       <span class="h7">片</span>
       <div class="icon-container">
-        <img :src="this.publicPath+status.icon" alt style="width:48px;height:48px;display:block" />
+        <img
+          :src="this.publicPath + status.icon"
+          alt
+          style="width:48px;height:48px;display:block"
+        />
       </div>
     </div>
   </div>
@@ -61,5 +67,4 @@ export default {
 };
 </script>
 
-<style>
-</style>
+<style></style>

@@ -11,7 +11,7 @@
 
 [v-cloak] {
     display: none;
-    transition-delay: 2s;
+    // transition-delay: 1s;
 }
 
 html {
@@ -139,7 +139,6 @@ textarea {
     position: relative;
     width: 100%;
     height: calc(60px + 1.75rem);
-    // outline: 1px solid red;
 }
 
 .btn-circle {

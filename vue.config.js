@@ -1,3 +1,3 @@
 module.exports = {
-  publicPath: '/vue-mask-map/'
-}
+  publicPath: "/vue-mask-map/"
+};

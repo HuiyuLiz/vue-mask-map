@@ -1,6 +1,6 @@
 <template>
   <div id="app">
-    <Loading :class="{'animation-delay':data.length>0}"></Loading>
+    <Loading></Loading>
     <!--================= navbar =================-->
     <header>
       <NavBar
@@ -18,12 +18,12 @@
         role="main"
         class="container overflow-xs-auto"
         ref="content"
-        :class="{'overflow-hidden':isFocus}"
+        :class="{ 'overflow-hidden': isFocus }"
       >
         <div class="row d-flex justify-content-sm-center">
           <div
             class="col-md-8 col-lg-5 bg-light pt-2 mb-md-2 min-height px-0 px-md-3"
-            :class="{'overflow-hidden':currentRouter === '口罩怎麼買'}"
+            :class="{ 'overflow-hidden': currentRouter === '口罩怎麼買' }"
           >
             <!--================= Search Input =================-->
             <div class="form-row px-3 mt-3 mt-md-4 mb-3" v-if="!isFocus">
@@ -31,16 +31,22 @@
                 <select class="form-control" id="city" v-model="cityIndex">
                   <option :value="null" selected>全部縣市</option>
                   <option
-                    v-for="(city,index) in CityCountry"
+                    v-for="(city, index) in CityCountry"
                     :key="index"
                     :value="index"
-                  >{{city.name}}</option>
+                    >{{ city.name }}</option
+                  >
                 </select>
               </div>
               <div class="col">
                 <select class="form-control" id="area" v-model="areaIndex">
                   <option :value="null" selected>全部區域</option>
-                  <option v-for="(area,index) in areas" :key="index" :value="index">{{area.name}}</option>
+                  <option
+                    v-for="(area, index) in areas"
+                    :key="index"
+                    :value="index"
+                    >{{ area.name }}</option
+                  >
                 </select>
               </div>
             </div>
@@ -54,7 +60,10 @@
                   ref="typeahead"
                 />
               </div>
-              <div class="form-group d-flex d-md-none w-100 mb-3 pb-1" :class="{'mt-3':isFocus}">
+              <div
+                class="form-group d-flex d-md-none w-100 mb-3 pb-1"
+                :class="{ 'mt-3': isFocus }"
+              >
                 <div class="input-icon-group" v-if="!isFocus">
                   <input
                     type="text"
@@ -68,18 +77,18 @@
                     <i class="material-icons">my_location</i>
                   </div>
                 </div>
-                <div class="d-flex arrow-input-group">
-                  <div class="btn px-3" @click="isFocus = !isFocus" v-if="isFocus">
+                <div class="d-flex arrow-input-group" v-if="isFocus">
+                  <div class="btn px-3" @click="isFocus = !isFocus">
                     <i
                       class="material-icons align-self-center text-center text-secondary font-weight-bold arrow-back-icon"
-                    >arrow_back_ios</i>
+                      >arrow_back_ios</i
+                    >
                   </div>
                   <vue-bootstrap-typeahead
-                    v-if="isFocus"
                     v-model.trim="searchText"
                     :data="addresses"
                     placeholder="請輸入地址"
-                    class="w-100 arrow-back-input"
+                    class="arrow-back-input"
                     @hit="selectedAddress = $event"
                   />
                 </div>
@@ -91,24 +100,35 @@
                 <div class="align-middle">搜尋</div>
               </div>
             </div>
-            <div class="h3 text-primary d-flex align-items-baseline px-3 mb-3" v-if="!isFocus">
+            <div
+              class="h3 text-primary d-flex align-items-baseline px-3 mb-3"
+              v-if="!isFocus"
+            >
               <div class="h3 m-0 font-weight-heavy">口罩實名制</div>
               <span class="h6 m-0 ml-2">購買日</span>
-              <div @click="currentRouter='口罩怎麼買'" style="cursor:pointer;position:relative;top:3px">
+              <div
+                @click="currentRouter = '口罩怎麼買'"
+                style="cursor:pointer;position:relative;top:3px"
+              >
                 <img
-                  :src="this.publicPath +'icon/ic_help@2x@2x.png'"
+                  :src="this.publicPath + 'icon/ic_help@2x@2x.png'"
                   class="ml-1"
                   style="width:24px;height:24px;display:block"
                 />
               </div>
             </div>
             <!--================= Refresh Button =================-->
-            <div class="d-flex justify-content-between mb-3 px-3 align-items-end" v-if="!isFocus">
+            <div
+              class="d-flex justify-content-between mb-3 px-3 align-items-end"
+              v-if="!isFocus"
+            >
               <small class="text-primary mb-0 d-flex flex-column">
-                <span class="pb-1" v-if="!isUserLocation">附近健保特約藥局或衛生所</span>
+                <span class="pb-1" v-if="!isUserLocation"
+                  >附近健保特約藥局或衛生所</span
+                >
                 <span class="pb-1" v-else>距離方圓 3公里 以內的供應商</span>
                 <span class="d-flex justify-content-space">
-                  資訊更新時間 {{update_time}}
+                  資訊更新時間 {{ update_time }}
                   <div class="ml-3 fa-1x" v-if="isLoading">
                     <i class="fas fa-spinner fa-pulse text-primary"></i>
                   </div>
@@ -119,7 +139,9 @@
                 class="btn btn-outline-primary btn-rounded border-bold py-2"
                 style="width:96px;min-width:25%"
                 @click="getData"
-              >重整列表</div>
+              >
+                重整列表
+              </div>
             </div>
             <!--================= Store =================-->
 
@@ -129,36 +151,55 @@
                   <div
                     class="card mx-3 mx-lg-0 mb-4"
                     ref="card"
-                    :class="{'fade':!isFade,'fade show':isFade}"
-                    v-for="(store,index) in filterStore"
+                    :class="{ fade: !isFade, 'fade show': isFade }"
+                    v-for="(store, index) in filterStore"
                     :key="index"
                     @click="moveToStore(store)"
                   >
                     <div class="card-body">
                       <div class="d-flex justify-content-between">
-                        <CardStockItem :mask="store.properties.mask_adult" mask-type="成人"></CardStockItem>
-                        <CardStockItem :mask="store.properties.mask_child" mask-type="兒童"></CardStockItem>
+                        <CardStockItem
+                          :mask="store.properties.mask_adult"
+                          mask-type="成人"
+                        ></CardStockItem>
+                        <CardStockItem
+                          :mask="store.properties.mask_child"
+                          mask-type="兒童"
+                        ></CardStockItem>
                       </div>
                       <div class="card-title mt-4 text-primary mb-0">
                         <div class="d-flex align-items-baseline mb-1">
                           <div
                             class="h5 font-weight-bold p-0 m-0 mr-1 front-border"
-                          >{{index+1}}. {{store.properties.name}}</div>
-                          <small class="h7" v-if="isUserLocation">{{store.distance}}km</small>
+                          >
+                            {{ index + 1 }}. {{ store.properties.name }}
+                          </div>
+                          <small class="h7" v-if="isUserLocation"
+                            >{{ store.distance }}km</small
+                          >
                         </div>
 
                         <div
                           class="card-text mb-1 d-flex justify-content-between align-items-baseline mt-3"
                         >
-                          <p class="mb-3 mr-1 d-flex w-90 justify-content-start">
+                          <p
+                            class="mb-3 mr-1 d-flex w-90 justify-content-start"
+                          >
                             <span class="mr-3">地址</span>
-                            <span class="text-secondary w-75">{{store.properties.address}}</span>
+                            <span class="text-secondary w-75">{{
+                              store.properties.address
+                            }}</span>
                           </p>
-                          <small class="ml-auto w-25 text-right" href="javascript:;">
+                          <small
+                            class="ml-auto w-25 text-right"
+                            href="javascript:;"
+                          >
                             <a
                               target="_blank"
                               rel="noopener noreferrer"
-                              :href="`https://www.google.com/maps/search/${store.properties.name}+${store.properties.address}`"
+                              :href="
+                                `https://www.google.com/maps/search/${store.properties.name}+${store.properties.address}`
+                              "
                             >
                               <u>查看地圖</u>
                             </a>
@@ -169,7 +210,9 @@
                         >
                           <p class="mb-0">
                             <span class="mr-3">電話</span>
-                            <span class="text-secondary">{{store.properties.phone}}</span>
+                            <span class="text-secondary">{{
+                              store.properties.phone
+                            }}</span>
                           </p>
                           <small class="ml-auto" href="javascript:;">
                             <a :href="`tel:${store.properties.phone}`">
@@ -179,16 +222,26 @@
                         </div>
                         <div
                           class="card-text justify-content-between align-items-baseline d-none"
-                          :class="{'d-flex':store.properties.note !== ''&&store.properties.note !== '-' || store.properties.custom_note !== ''}"
+                          :class="{
+                            'd-flex':
+                              (store.properties.note !== '' &&
+                                store.properties.note !== '-') ||
+                              store.properties.custom_note !== ''
+                          }"
                         >
                           <div class="mb-0 d-flex w-100">
                             <p class="mr-3">備註</p>
                             <div class="text-secondary w-75">
-                              <p v-if="store.properties.note !== '-'" class="mb-1 pb-0">
-                                {{store.properties.note }}
+                              <p
+                                v-if="store.properties.note !== '-'"
+                                class="mb-1 pb-0"
+                              >
+                                {{ store.properties.note }}
                                 <br />
                               </p>
-                              <p class="mb-0 pb-0">{{store.properties.custom_note }}</p>
+                              <p class="mb-0 pb-0">
+                                {{ store.properties.custom_note }}
+                              </p>
                             </div>
                           </div>
                         </div>
@@ -200,7 +253,10 @@
                     <div
                       class="text-center load-data mb-2"
                       style="hight:25px"
-                      v-if="loadingData<filterData.length||filterData.length>loadingData"
+                      v-if="
+                        loadingData < filterData.length ||
+                          filterData.length > loadingData
+                      "
                     >
                       <small class="text-primary">
                         <div class="lds-ellipsis" v-if="isLoadingMore">
@@ -209,34 +265,45 @@
                           <div></div>
                           <div></div>
                         </div>
-                        <p v-else>還有 {{filterData.length - loadingData}} 筆</p>
+                        <p v-else>
+                          還有 {{ filterData.length - loadingData }} 筆
+                        </p>
                       </small>
                     </div>
                     <div class="button-group">
                       <button
                         class="btn btn-primary btn-rounded py-2 btn-shadow load"
                         style="width:40%"
-                        v-if="loadingData<filterData.length||filterData.length>loadingData"
+                        v-if="
+                          loadingData < filterData.length ||
+                            filterData.length > loadingData
+                        "
                         @click="loadMore"
-                      >查看更多</button>
+                      >
+                        查看更多
+                      </button>
                       <button
-                        class="btn btn-primary btn-shadow btn-circle d-flex position-go-top fade"
-                        :class="{'d-flex show':scrollFlag}"
+                        class="btn btn-primary btn-shadow btn-circle d-flex position-go-top  align-items-center fade"
+                        :class="{ 'd-flex show': scrollFlag }"
                         @click="backToTop"
-                        v-if="filterData.length>1"
-                      >TOP</button>
+                        v-if="filterData.length > 1"
+                      >
+                        TOP
+                      </button>
                       <button
-                        class="btn btn-primary btn-shadow btn-circle d-none d-lg-flex position-go-card"
+                        class="btn btn-primary btn-shadow btn-circle d-none d-lg-flex position-go-card align-items-center"
                         @click="backToCard"
-                        v-if="filterData.length>1"
-                      >TOP</button>
+                        v-if="filterData.length > 1"
+                      >
+                        TOP
+                      </button>
                     </div>
                   </div>
                 </template>
                 <div
                   class="mb-4 mx-3 mx-md-0 text-primary d-flex"
-                  :class="{'show-animation':filterData<=0}"
-                  v-if="filterData<=0"
+                  :class="{ 'show-animation': isNotFounded }"
+                  v-if="isNotFounded"
                 >
                   查無此地點
                   <i class="material-icons ml-1">error</i>
@@ -252,7 +319,10 @@
                     class="container bg-primary d-flex text-white align-items-center justify-content-between py-1"
                   >
                     <p class="m-0">最近搜尋</p>
-                    <button class="btn btn-small btn-outline-light" @click="clearLocalStorage">
+                    <button
+                      class="btn btn-small btn-outline-light"
+                      @click="clearLocalStorage"
+                    >
                       <small>清除</small>
                     </button>
                   </div>
@@ -260,20 +330,27 @@
                 <ul class="list-group px-3" style="min-height:90vh">
                   <li
                     class="text-primary border-bottom py-3 px-2"
-                    v-for="(data,index) in getLocalData"
+                    v-for="(data, index) in getLocalData"
                     :key="index"
                     @click="selectLocalData(data)"
-                  >{{data}}</li>
+                  >
+                    {{ data }}
+                  </li>
                 </ul>
                 <button class="btn btn-location" @click="getUserLocation">
                   <i class="material-icons">my_location</i>
                 </button>
               </div>
             </template>
-            <Footer :class="{'fixed-bottom':filterData.length<=0}" v-if="!isFocus"></Footer>
+            <Footer
+              :class="{ 'fixed-bottom': filterData.length <= 0 }"
+              v-if="!isFocus"
+            ></Footer>
           </div>
           <!--================= Map =================-->
-          <div class="col-md-7 d-none d-lg-flex mb-5 flex-column justify-content-space min-height">
+          <div
+            class="col-md-7 d-none d-lg-flex mb-5 flex-column justify-content-space min-height"
+          >
             <div id="map" ref="map" class="h-100 w-100 mb-3">
               <button
                 class="btn btn-location"
@@ -285,14 +362,18 @@
               </button>
             </div>
             <div class="text-right pt-3">
-              <div class="text-primary h6 mb-0">防疫專線 1922 ｜ 口罩資訊 1911</div>
+              <div class="text-primary h6 mb-0">
+                防疫專線 1922 ｜ 口罩資訊 1911
+              </div>
               <small class="text-secondary">
                 <a
                   href="https://github.com/HuiyuLiz/vue-mask-map"
                   target="_blank"
                   title="github"
                   class="text-secondary"
-                >Huiyu Li</a> / PY Design
+                  >Huiyu Li</a
+                >
+                / PY Design
               </small>
             </div>
           </div>
@@ -337,6 +418,7 @@ export default {
       isLoading: false,
       isSearching: false,
       isLoadingMore: false,
+      isNotFounded: false,
       isFade: false,
       isClicked: false,
       isFocus: false,
@@ -410,7 +492,15 @@ export default {
         }
       },
       immediate: true
-    }
+    },
+    filterData: _.debounce(function(newVal) {
+      let vm = this;
+      if (newVal.length <= 0) {
+        vm.isNotFounded = true;
+      } else {
+        vm.isNotFounded = false;
+      }
+    }, 500)
   },
   computed: {
     cityIndex: {
@@ -904,7 +994,7 @@ export default {
               vm.getMarkers();
               vm.initMap();
               vm.isInit = false;
-            }, 4000);
+            }, 1500);
           } else {
             vm.data = data;
           }

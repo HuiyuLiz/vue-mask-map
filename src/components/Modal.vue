@@ -1,5 +1,9 @@
 <template>
-  <div class="modal" style="background-color: rgba(52, 73, 94, 0.9)" ref="modal">
+  <div
+    class="modal"
+    style="background-color: rgba(52, 73, 94, 0.9)"
+    ref="modal"
+  >
     <div class="modal-dialog modal-dialog-centered" role="document">
       <div class="modal-content rounded-0">
         <button
@@ -12,7 +16,7 @@
         <div class="modal-body p-0">
           <div class="d-flex justify-content-center px-3">
             <img
-              :src="this.publicPath +'jpg/mask news.jpg'"
+              :src="this.publicPath + 'jpg/mask news.jpg'"
               class="img-fluid"
               style="height:80vh;object-fit:contain;"
             />
@@ -63,4 +67,3 @@ export default {
   }
 };
 </script>
-
