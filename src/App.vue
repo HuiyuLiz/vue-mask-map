@@ -51,13 +51,14 @@
               </div>
             </div>
             <div class="d-flex justify-content-between mb-1 px-3">
-              <div class="form-group d-none d-md-block" style="width:70%">
+              <div class="form-group d-none d-md-block w-100">
                 <vue-bootstrap-typeahead
                   v-model.trim="searchText"
                   :data="addresses"
                   placeholder="請輸入地址"
                   @hit="selectedAddress = $event"
                   ref="typeahead"
+                  id="typeahead"
                 />
               </div>
               <div
@@ -93,18 +94,14 @@
                   />
                 </div>
               </div>
-              <div
-                class="btn btn-primary w-25 py-2 d-none d-md-flex justify-content-center align-items-center"
-                @click="setView"
-              >
-                <div class="align-middle">搜尋</div>
-              </div>
             </div>
             <div
               class="h3 text-primary d-flex align-items-baseline px-3 mb-3"
               v-if="!isFocus"
             >
-              <div class="h3 m-0 font-weight-heavy">口罩實名制</div>
+              <div class="h2 m-0 font-weight-heavy">
+                口罩
+              </div>
               <span class="h6 m-0 ml-2">購買日</span>
               <div
                 @click="currentRouter = '口罩怎麼買'"
@@ -116,6 +113,14 @@
                   style="width:24px;height:24px;display:block"
                 />
               </div>
+              <a
+                href="https://emask.taiwan.gov.tw/msk/index.jsp"
+                target="_blank"
+                style="width:110px;min-width:25%"
+                class="btn btn-primary py-2 d-md-flex justify-content-center align-items-center ml-auto btn-rounded"
+              >
+                <div class="align-middle">線上預購</div>
+              </a>
             </div>
             <!--================= Refresh Button =================-->
             <div
@@ -137,7 +142,7 @@
 
               <div
                 class="btn btn-outline-primary btn-rounded border-bold py-2"
-                style="width:96px;min-width:25%"
+                style="width:110px;min-width:25%"
                 @click="getData"
               >
                 重整列表
@@ -423,6 +428,7 @@ export default {
       isClicked: false,
       isFocus: false,
       isUserLocation: false,
+      isTyping: false,
       currentRouter: "口罩供給現況",
       day: "",
       availableDay: "",
@@ -495,6 +501,7 @@ export default {
     },
     filterData: _.debounce(function(newVal) {
       let vm = this;
+      if (this.isTyping) return false;
       if (newVal.length <= 0) {
         vm.isNotFounded = true;
       } else {
@@ -1084,6 +1091,13 @@ export default {
   mounted() {
     let vm = this;
     window.addEventListener("scroll", vm.scrollToTop);
+    let inputModel = document.querySelector("#typeahead");
+    inputModel.addEventListener("compositionstart", () => {
+      this.isTyping = true;
+    });
+    inputModel.addEventListener("compositionend", () => {
+      this.isTyping = false;
+    });
   },
   created() {
     let vm = this;
