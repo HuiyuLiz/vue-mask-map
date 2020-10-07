@@ -1,5 +1,5 @@
 # vue-mask-map 口罩即時查
- ![image]( https://github.com/HuiyuLiz/vue-mask-map/blob/master/public/jpg/demo.png)  
+ ![image]( https://github.com/HuiyuLiz/vue-mask-map/blob/master/public/jpg/demo%20update.jpg?raw=true)  
 
  ## 專案說明
  使用 Vue.js 和 Leaflet.js 製作出的【口罩即時查】，樣式選擇用 Bootstrap 進行響應式及行動裝置設計，可以即時得知全台各地口罩數量。使用者可以透過允許取得目前位置資訊後，將顯示三公里以內的健保特約藥局或衛生所，方便就近採購。
