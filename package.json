@@ -18,7 +18,7 @@
     "leaflet": "^1.6.0",
     "leaflet.markercluster": "^1.4.1",
     "popper.js": "^1.16.1",
-    "underscore": "^1.9.2",
+    "underscore": "^1.12.1",
     "vue": "^2.6.11",
     "vue-axios": "^2.1.5",
     "vue-bootstrap-typeahead": "^0.2.6",
